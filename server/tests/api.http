@@ -1,0 +1,9 @@
+@apiPrefix = /api/v1
+@port = 4000
+@host = localhost
+@baseUrl = https://api.better-call.dev/v1
+
+@storagePath = {{baseUrl}}/contract/delphinet/KT1Wja5vWzUP15fWpAYFdGYHZmBZbtuHzG4H/storage
+
+###
+GET {{storagePath}} HTTP/1.1
