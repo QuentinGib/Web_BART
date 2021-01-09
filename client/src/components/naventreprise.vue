@@ -1,12 +1,22 @@
 <template>
-    <nav class='colorE'>
-        <ul>
-            <li><router-link :to="{ name: 'Home' }"><i class="fas fa-home"></i></router-link></li>
-            <li><router-link :to="{ name: 'HowKey' }">Comment valider un contract ?</router-link></li>
-            <li><router-link :to="{ name: 'Proposer' }">Proposer un contract</router-link></li>
-            <li><router-link :to="{ name: 'GestionRh' }">Gestion de vos Collaborateurs</router-link></li>
-        </ul>
-    </nav>
+  <div>
+    <div class="main-header">
+        <header class="main-header-title">
+          <h1>
+            B.A.R.T.
+          </h1>
+        </header>
+        <div class="main-nav" id="mainnav">
+          <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>
+          <router-link class="main-tab" :to="{ name: 'Proposer' }">📝 Nouveau contract
+              </router-link
+          >
+          <router-link class="main-tab" :to="{ name: 'GestionRh' }">👓 Collaborateurs
+              </router-link
+          >
+        </div>
+    </div>
+</div>
 </template>
 <script>
 export default {
@@ -14,12 +24,5 @@ export default {
 }
 </script>
 <style>
-.colorE {
-    display: flex;
-    background: rgb(230, 78, 78);
-}
-.colorE ul li {
-    background: rgb(192, 110, 110);
-}
 
 </style>

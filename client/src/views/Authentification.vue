@@ -1,38 +1,53 @@
 <template>
-<h1 id="theme">Bienvenue dans la start'up</h1>
-<div class="gauche">
-  <img class="imgAuth" src="@/assets/images/SC.png">
-</div>
-<div class="droite">
-  <div class="space"></div>
-  <p class="psize">Connectez-Vous avec l'identifiant fourni</p>
-  <form>
-    <div class="form-group">
-        <label for="">Clé publique</label>
-        <input v-model="id"  type="text" id="id" class="form-control" placeholder="Clé publique" required>
-    </div>
-<div class="form-group">
-        <label for="cle">mot de passe</label>
-        <input v-model="cle" type="password"  id="cle" class="form-control" placeholder="Mot de Passe" required>
-    </div>
-    <div>
-    <button v-if="CheckButtom" v-on:click="envoiForm" class="btn">Envoyez</button>
-    </div>
-    <div>
-        <button type="submit" class="btn">Connectez !</button>
-    </div>
-    </form>
-    <p>en cas de perte de votre mot de passe, Contactez à l'adresse: #email-automatique</p>
-</div>
-<foot class="bas"></foot>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Authentification</title>
+    </head>
+    <body>
+      <main>
+        <h1 id="theme">B.A.R.T.</h1>
+        <div class="login-box">
+          <h2>Login</h2>
+          <form @submit.prevent="sendCredentials">
+            <div class="user-box">
+              <input
+                type="text"
+                name=""
+                required=""
+                id="username"
+                v-model="id"
+                autocomplete="off"
+              />
+              <label for="username">Username</label>
+            </div>
+            <div class="user-box">
+              <input
+                name=""
+                id="paswword"
+                v-model="cle"
+                type="password"
+                required=""
+                autocomplete="off"
+              />
+              <label>Password</label>
+            </div>
+            <button type="submit" class="subbutton">Se connecter</button>
+          </form>
+        </div>
+        <p class="mdpOublie">En cas de perte de votre mot de passe, contactez l'adresse: #email-automatique</p>
+      </main>
+    </body>
+  </html>
 </template>
 
 <script>
-import Foot from '../components/foot.vue'
 export default {
   name: 'Authentification',
   components: {
-    foot: Foot
+
   },
   data () {
     return {
@@ -43,7 +58,7 @@ export default {
   },
   methods: {
     sendCredentials () {
-      const login = this.mail
+      const login = this.id
       const password = this.cle
 
       fetch('/api/v1/auth/token', {
@@ -65,75 +80,104 @@ export default {
   }
 }
 </script>
+
 <style>
-.main {
-  display: inline;
+.mdpOublie {
+  position: absolute;
+  top: 90%;
+  left: 50%;
 }
-.gauche {
-  display: flex;
-  float: left;
-  width: 40%;
-  height: 650px;
+
+.login-box {
+  font-family: sans-serif;
+  background: linear-gradient(#00638a, #009edc);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  padding: 40px;
+  transform: translate(-50%, -50%);
+  box-sizing: border-box;
+  box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+  border-radius: 25px;
 }
-.imgAuth {
-  width: 100%;
-}
-.droite {
-  display: inline;
-  align-items: center;
-  float: right;
-  width: 53%;
-  height: 650px;
-}
-.psize {
-  font-size: 300%;
-  margin: 1px;
-}
-.space {
-  margin-bottom: 100px ;
-}
-.form-group {
-    display:inline-block;
-    width: 80%;
-    justify-content: center;
-    margin-bottom: 1rem;
-    margin-top: 1rem;
-}
-.form-group >label{
-    margin-bottom: .5rem;
-    font-size: larger;
-}
-.form-control {
-    display: block;
-    width: 100%;
-    height: calc(1.5em + .75rem + 2px);
-    padding: .375rem .75rem;
-    font-size: 1rem;
-    font-weight: 400;
-    line-height: 1.5;
-    color: #495057;
-    background-color: #fff;
-    background-clip: padding-box;
-    border:  #ced4da;
-    border-radius: .25rem;
-}
-.btn{
-  display: inline-block;
-  font-weight: 400;
-  text-align: center;
-  vertical-align: middle;
-  padding: .375rem .75rem;
-  font-size: 1rem;
-  line-height: 1.5;
-  border-radius: .25rem;
-  user-select: none;
-  background-color: rgb(78, 228, 78);
+.login-box h2 {
+  margin: 0 0 30px;
+  padding: 0;
   color: #fff;
+  text-align: center;
 }
-.btn:hover{
-  background-color: darkgreen;
+.login-box .user-box {
+  position: relative;
 }
-.bas {
-  margin-top: 700px;
+.login-box .user-box input {
+  width: 100%;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  margin-bottom: 30px;
+  border: none;
+  border-bottom: 1px solid #fff;
+  outline: none;
+  background: transparent;
+}
+.login-box .user-box label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 10px 0;
+  font-size: 16px;
+  color: #fff;
+  pointer-events: none;
+  transition: 0.5s;
+}
+.login-box .user-box input:focus ~ label,
+.login-box .user-box input:valid ~ label {
+  top: -20px;
+  left: 0;
+  color: #45dbd4;
+  font-size: 12px;
+}
+.login-box form a {
+  position: relative;
+  display: inline-block;
+  padding: 10px 20px;
+  color: #45dbd4;
+  font-size: 16px;
+  text-decoration: none;
+  text-transform: uppercase;
+  overflow: hidden;
+  transition: 0.5s;
+  margin-top: 40px;
+  letter-spacing: 4px;
+}
+.subbutton {
+  border: 1.5px solid #fff;
+  font-size: 16px;
+  color: #fff;
+  height: 2.25rem;
+  line-height: 1.25rem;
+  margin-top: 0.25rem;
+  padding: 0.25rem 0.5rem;
+  width: 15rem;
+  transition: all 0.25s;
+  background: #0093CD;
+  margin-top: 0.625rem;
+  order: 4;
+  outline: 1px dashed transparent;
+  outline-offset: 2px;
+  padding-left: 0;
+  border-radius: 10px;
+}
+.subbutton:hover {
+  color:#45dbd4;
+  border: 1.5px solid#45dbd4;
+  background: #0093CD;
+}
+.subbutton:active {
+  color: #0093CD;
+  border: 1.5px solid#45dbd4;
+  background:#45dbd4;
+  transition: all 0.125s;
 }
 </style>

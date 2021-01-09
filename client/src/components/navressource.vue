@@ -1,16 +1,26 @@
 <template>
-    <nav class="colorR">
-        <ul>
-            <li><router-link :to="{ name: 'Home' }"><i class="fas fa-home"></i></router-link></li>
-            <li><router-link :to="{ name: 'HowKey' }">Comment valider un contract ?</router-link></li>
-            <li><router-link :to="{ name: 'Activité' }">Rendre son rapport d'Activité</router-link></li>
-            <li><router-link :to="{ name: 'Validate' }">Valider son contract</router-link></li>
-        </ul>
-    </nav>
+<div>
+    <div class="main-header">
+        <header class="main-header-title">
+          <h1>
+            B.A.R.T.
+          </h1>
+        </header>
+        <div class="main-nav" id="mainnav">
+          <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>
+          <router-link class="main-tab" :to="{ name: 'Activité' }">📊 Rapport d'activité
+              </router-link
+          >
+          <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider son contract
+              </router-link
+          >
+        </div>
+    </div>
+</div>
 </template>
 <script>
 export default {
-  name: 'navclient'
+  name: 'navressource'
 }
 </script>
 <style>

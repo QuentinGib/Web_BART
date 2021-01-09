@@ -1,26 +1,36 @@
 <template>
-    <navbar></navbar>
-    <main>
-        <h1 id="theme">Valider un contract</h1>
-        <form>
-          <div class="form-group">
-        <label for="">Numéro du contract</label>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <navbar></navbar>
+  <main>
+    <h1 id="theme">Valider un contrat</h1>
+    <form class="form-infoSCvalidate">
+      <div class="form-group">
+        <label for="">Numéro du contrat</label>
         <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="Id Contract" required>
-    </div>
-    <div>
-        <button type="submit" class="btn">Voir le contract!</button>
-    </div>
-        </form>
-      <div class="Icontract">
-        <h2>Info du contract</h2>
-        <h3>{{Contract}}</h3>
-        <p> une fonction SQL qui récuperent les infos pour la blockchain</p>
       </div>
       <div>
-        <button type="submit" class="btn">Validez le contract !</button>
+        <button type="submit" class="btn">Voir le contrat</button>
+      </div>
+    </form>
+    <div class="Icontract">
+      <h2>Infos du contrat</h2>
+      <h3>{{Contract}}</h3>
+      <p> une fonction SQL qui récuperent les infos pour la blockchain</p>
     </div>
-    </main>
-    <foot></foot>
+    <div>
+      <button type="submit" class="btn">✔️ Signer le contract</button>
+    </div>
+  </main>
+  <foot></foot>
+</body>
+</html>
 </template>
 <script>
 import Nav from '../components/nav.vue'
@@ -39,5 +49,8 @@ export default {
 }
 </script>
 <style>
-
+.form-infoSCvalidate {
+  width: 145px;
+  margin-left: 0.5em;
+}
 </style>

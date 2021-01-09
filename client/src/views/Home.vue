@@ -1,44 +1,54 @@
 <template>
-    <navbar></navbar>
-    <main>
-        <h1 id="theme">Bienvenue dans votre espace client</h1>
-        <br>
-        <form>
-        <div class="Encours">
-          <h3>Contract en cours</h3>
-          <select name="Contract" id="Contract">
-            <option value="">--Contract--</option>
-    <option v-bind:key="index" v-for="(Contract,index) in Contracts">{{Contract}}</option>
-    </select>
-    <div>
-        <button type="submit" class="btn">Validez !</button>
-    </div>
-        </div>
-        </form>
-        <br>
-        <div>
-          <table class="Thistorique">
-            <tr>
-              <td colspan=5 class="Theader">Historique</td>
-            </tr>
-            <tr>
-              <td>Numéro de Contract</td>
-              <td>Entreprise</td>
-              <td>Nombre d'heures</td>
-              <td>Début du Contract</td>
-              <td>Total</td>
-            </tr>
-            <tr v-bind:key="index" v-for="(H,index) in TC">
-              <td>{{TC[index]}}</td>
-              <td>{{TE[index]}}</td>
-              <td>{{TH[index]}}</td>
-              <td>{{TD[index]}}</td>
-              <td>{{TP[index]}}</td>
-            </tr>
-          </table>
-        </div>
-    </main>
-    <foot></foot>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <navbar></navbar>
+  <main>
+      <h1 id="theme">Bienvenue dans votre espace client</h1>
+      <br>
+      <form>
+      <div class="Encours">
+        <h3>Contract en cours</h3>
+        <select name="Contract" id="Contract">
+          <option value="">--Contract--</option>
+  <option v-bind:key="index" v-for="(Contract,index) in Contracts">{{Contract}}</option>
+  </select>
+  <div>
+      <button type="submit" class="btn">Validez !</button>
+  </div>
+      </div>
+      </form>
+      <br>
+      <div>
+        <table class="Thistorique">
+          <tr>
+            <td colspan=5 class="Theader">Historique</td>
+          </tr>
+          <tr>
+            <td>Numéro de Contract</td>
+            <td>Entreprise</td>
+            <td>Nombre d'heures</td>
+            <td>Début du Contract</td>
+            <td>Total</td>
+          </tr>
+          <tr v-bind:key="index" v-for="(H,index) in TC">
+            <td>{{TC[index]}}</td>
+            <td>{{TE[index]}}</td>
+            <td>{{TH[index]}}</td>
+            <td>{{TD[index]}}</td>
+            <td>{{TP[index]}}</td>
+          </tr>
+        </table>
+      </div>
+  </main>
+  <foot></foot>
+</body>
+</html>
 </template>
 <script>
 import Nav from '../components/nav.vue'

@@ -5,12 +5,12 @@ const router = new express.Router()
 const apiBaseUrl = 'https://api.better-call.dev/v1'
 
 // Fonction réutilisable pour faire des appels à l'API BCD
-function fetchBCD (path) {
+function fetchBCD(path) {
 
     return fetch(`${apiBaseUrl}${path}`, {
         method: "GET",
         headers: {
-            accept: 'application/json'
+            Accept: 'application/json'
         }
     })
     .then(fetchResponse => {

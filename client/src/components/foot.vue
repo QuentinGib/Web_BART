@@ -1,9 +1,8 @@
 <template>
     <footer class="footer">
-        <div class="divfooter">
-        <h1>SMART CONTRACT</h1>
-        <p>2020</p>
-        </div>
+        <router-link class="aide" :to="{ name: 'HowKey' }">Help : comment valider un contract ?
+            </router-link
+        >
     </footer>
 </template>
 
@@ -14,22 +13,27 @@ export default {
 </script>
 
 <style scoped>
+/*region aide*/
 .footer {
     display: flex;
-    background-color: #202020;
-    color: grey;
     justify-content: center;
-    font-family: 'Bad Script', cursive;
-}
-.divfooter {
-    text-align: center;
-}
-.divfooter >h1 {
-    margin-bottom: 5px;
-}
-.divfooter >p{
-    margin-top: 1px;
-    font-size: 300%;
 }
 
+.aide {
+    display: flex;
+    justify-content: center;
+    font-size: 120%;
+    font-weight: 300;
+    color: whitesmoke;
+    background-color: #00638a;
+    margin: 2em;
+    text-decoration: none;
+    width: 21rem;
+
+    text-align: center;
+    padding: 0.8rem;
+    box-shadow: 0 15px 25px rgba(0, 0, 0, 0.6);
+    border-radius: 30px;
+}
+/*region aide*/
 </style>

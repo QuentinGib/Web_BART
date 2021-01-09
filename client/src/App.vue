@@ -1,21 +1,28 @@
 <template>
-  <html>
-      <div class="main-header">
-        <header>
-            <h1>PI^2</h1>
-        </header>
-    </div>
-  </html>
-  <router-view/>
+<html>
+    <link
+       rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+     />
+     <link
+       rel="stylesheet"
+       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css"
+     />
+     <link
+       href="https://fonts.googleapis.com/css2?family=Fredoka+One&display=swap"
+       rel="stylesheet"
+     />
+    <router-view/>
+</html>
 </template>
 
 <style>
 html {
-    font-family : 'Baloo Tammudu 2', cursive, Calibri, Arial, Verdana, Geneva, Tahoma, sans-serif;
+    font-family : Arial, Helvetica, sans-serif;
 }
 
 body {
-    background-color: whitesmoke;
+    background-color:white;
 }
 
 /* HEADER */
@@ -46,7 +53,7 @@ header {
 }
 
 #logo-text {
-    font-family: 'Bad Script', cursive;
+    font-family: Arial, Helvetica, sans-serif;
 }
 
 /* SIGN-IN and NAV */
@@ -67,7 +74,7 @@ header {
     padding-top: 10px;
     display: flex;
     justify-content: center;
-    font-family: 'Bad Script', cursive;
+    color: #00638a;
 }
 
 main {
