@@ -16,7 +16,8 @@
     "conseiljs": "^5.0.6-1",
     "conseiljs-softsigner": "^5.0.3",
     "express": "^4.17.1",
-    "isomorphic-fetch": "^3.0.0"
+    "isomorphic-fetch": "^3.0.0",
+    "node-fetch": "^2.6.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
