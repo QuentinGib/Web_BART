@@ -2,12 +2,13 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Authentification from '../views/Authentification.vue'
 import Home from '../views/Home.vue'
 import HowKey from '../views/HowKey.vue'
-import AskContract from '../views/AskContract.vue'
+import AskContract from '../views/Client/AskContract.vue'
 import Validate from '../views/ValidateContract.vue'
-import Activité from '../views/RapportActivité.vue'
-import Proposer from '../views/ProposerContract.vue'
-import GestionRh from '../views/GestionRh.vue'
-import Modifier from '../views/ModifierContract.vue'
+import Activité from '../views/Ressource/RapportActivité.vue'
+import Proposer from '../views/Entreprise/ProposerContract.vue'
+import GestionRh from '../views/Entreprise/GestionRh.vue'
+import Modifier from '../views/Entreprise/ModifierContract.vue'
+import Contract from '../views/Entreprise/PageContract.vue'
 const routes = [
   {
     path: '/',
@@ -53,6 +54,11 @@ const routes = [
     path: '/ModifierContract',
     name: 'Modifier',
     component: Modifier
+  },
+  {
+    path: '/PageContract/:slug',
+    name: 'PageContract',
+    component: Contract
   }
 ]
 

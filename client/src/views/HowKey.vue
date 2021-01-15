@@ -16,7 +16,7 @@
 </html>
 </template>
 <script>
-import Nav from '../components/nav.vue'
+import Nav from '../components/nav/nav'
 export default {
   name: 'HowKey',
   components: {
