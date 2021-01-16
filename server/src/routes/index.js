@@ -1,4 +1,4 @@
-const fetch = require('isomorphic-fetch')
+const fetchiso = require('isomorphic-fetch')
 const express = require('express')
 
 const infosSCRoutes = require('./infosSC-routes.js')
