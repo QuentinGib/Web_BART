@@ -11,19 +11,17 @@ conseiljs.registerFetch(fetch);
 const express = require('express')
 
 const tezosNode = 'https://tezos-dev.cryptonomic-infra.tech:443';
+const contractAddress = 'KT1QccH45jTEZzyNwSHqR3yMwu2VpMpzALUe'
 
 const router = new express.Router()
-
-// console.log(entryPoints[0].generateParameter('', '', 999));
 
 router.get('/setAll', (req, res) => {
     
     const body = req.body
 
-    const contractParameters = 'parameter (pair (pair (nat %TJM) (address %cli)) (pair (string %id) (pair (address %op) (nat %temp))));'
-    const contractAddress = 'KT1QccH45jTEZzyNwSHqR3yMwu2VpMpzALUe'
+    const contractParameters = '(Pair (Pair 300 "tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK") (Pair "SCfromConseiljs7" (Pair "tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ" 22)))'
 
-    const entryPoints = conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters);
+    // const entryPoints = conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters);
 
     //const seAll = entryPoints[1].conseiljs.TezosMessageUtils.generateParameter(200,'tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK','sc-212','tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ',14);
 
@@ -47,16 +45,15 @@ router.get('/setAll', (req, res) => {
     // const keyStore = conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey('edskSACXP273g1JA9VxTTVqi6mN725DUCe67D2KkYhF38SkG2Wgvr3ZExaTVyvgKdpBaGBeoVNURGgK59VAFuMcUP2NPE5ZBfF');
     async function invokeContract() {
         const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keystore.privateKey, 'edsk'));
-        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keystore, contractAddress, 0, 100000, 1000, 100000, '', '(Pair (Pair 300 "tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK") (Pair "SCfromConseiljs" (Pair "tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ" 22)))', conseiljs.TezosParameterFormat.Michelson);
+        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keystore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
         // const result = await conseiljs.TezosNodeWriter.sendContractPing(tezosNode, keystore, "KT1QccH45jTEZzyNwSHqR3yMwu2VpMpzALUe", 100000, '', 1000, 100000);
-        return result
+        res.json({
+            success : result.results.contents[0].metadata.operation_result.status,
+            resultID : result.operationGroupID
+        })
     }
-    const result = invokeContract()
-    res.json({
-        success: true,
-        result
-    })
-    
+
+    invokeContract()
     
 })
 
