@@ -13,9 +13,9 @@ export default {
   name: 'Nav',
   data () {
     return {
-      client: true,
+      client: false,
       ressource: false,
-      entreprise: false
+      entreprise: true
     }
   },
   components: {

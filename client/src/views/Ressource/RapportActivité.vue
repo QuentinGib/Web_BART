@@ -12,12 +12,18 @@
     <h1 id="theme">Donner son Bilan</h1>
     <form class="form-ra">
       <div class="form-group">
-        <label for="">Numéro du contract</label>
-        <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="Id Contract" required>
+        <div ><label for="">Numéro du contract</label></div>
+        <div class="RAS"><select name="Contrat" id="Contrat">
+          <option value="">--Contract--</option>
+  <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
+  </select></div>
       </div>
       <div class="form-group">
-        <label for="">Nombre d'heures</label>
-        <input v-model="heure"  type="number" id="heure" class="form-control" placeholder="Nombres d'heure" required>
+        <div><label for="">Nombre d'heures</label></div>
+        <div class="RAS"><select name="Contrat" id="Contrat">
+        <option value="">--Heures--</option>
+  <option v-bind:key="index" v-for="(heure,index) in Heures">{{heure}}</option>
+  </select></div>
       </div>
       <p>Mettre un PDF ici pour un rapport de contract plus complet</p>
       <div>
@@ -30,10 +36,16 @@
 </html>
 </template>
 <script>
-import Nav from '../components/nav.vue'
-import Foot from '../components/foot.vue'
+import Nav from '../../components/nav/nav'
+import Foot from '../../components/footer/foot.vue'
 export default {
   name: 'Activité',
+  data () {
+    return {
+      Contrats: ['C1', 'C2', 'C3', 'C4'],
+      Heures: ['32', '50', '345', '1']
+    }
+  },
   components: {
     navbar: Nav,
     foot: Foot
@@ -51,5 +63,14 @@ export default {
     background-color: whitesmoke;
     padding: 5%;
     border: 2px solid #4D4D4F;
+}
+.RAS {
+ height: 40px;
+ width: 60%;
+}
+.RAS >select {
+  height: 90%;
+  width: 80%;
+  font-size: 170%;
 }
 </style>

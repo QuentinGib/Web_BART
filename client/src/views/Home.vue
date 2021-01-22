@@ -14,12 +14,15 @@
       <form>
       <div class="Encours">
         <h3>Contract en cours</h3>
-        <select name="Contract" id="Contract">
+        <select name="Contract" id="Contract" v-model="Contrat">
           <option value="">--Contract--</option>
-  <option v-bind:key="index" v-for="(Contract,index) in Contracts">{{Contract}}</option>
+  <option v-bind:key="index" v-for="(Contract,index) in Contracts">
+    {{Contract}}
+    </option>
   </select>
+  <p>{{Contrat}}</p>
   <div>
-      <button type="submit" class="btn">Validez !</button>
+      <button type="button" class="btn">Validez !</button>
   </div>
       </div>
       </form>
@@ -51,12 +54,13 @@
 </html>
 </template>
 <script>
-import Nav from '../components/nav.vue'
-import Foot from '../components/foot.vue'
+import Nav from '../components/nav/nav.vue'
+import Foot from '../components/footer/foot.vue'
 export default {
   name: 'Home',
   data () {
     return {
+      Contrat: '',
       Contracts: ['C1', 'C2', 'C3', 'C4'],
       TC: ['T1', 'T2', 'T3', 'T4'],
       TE: ['Onepoint', 'Onepoint', 'Parterns', 'Cap'],

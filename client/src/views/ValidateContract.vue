@@ -33,8 +33,8 @@
 </html>
 </template>
 <script>
-import Nav from '../components/nav.vue'
-import Foot from '../components/foot.vue'
+import Nav from '../components/nav/nav'
+import Foot from '../components/footer/foot.vue'
 export default {
   name: 'Validate',
   data () {
