@@ -11,23 +11,23 @@
         <h1 id="theme">B.A.R.T.</h1>
         <div class="login-box">
           <h2>Login</h2>
-          <form @submit.prevent="sendCredentials">
+          <form @submit.prevent="Login">
             <div class="user-box">
               <input
                 type="text"
                 name=""
                 required=""
-                id="username"
-                v-model="id"
+                id="email"
+                v-model="email"
                 autocomplete="off"
               />
-              <label for="username">Username</label>
+              <label for="email">Mail</label>
             </div>
             <div class="user-box">
               <input
                 name=""
-                id="paswword"
-                v-model="cle"
+                id="pwd"
+                v-model="pwd"
                 type="password"
                 required=""
                 autocomplete="off"
@@ -47,33 +47,37 @@
 export default {
   name: 'Authentification',
   components: {
-
   },
   data () {
     return {
-      id: undefined,
-      cle: undefined,
-      fonction: undefined // dans le SQL mettre si c'est un client / ressource / entreprise
+      login: {
+        email: '',
+        pwd: '',
+        rôle: ''
+      }
     }
   },
   methods: {
-    sendCredentials () {
-      const login = this.id
-      const password = this.cle
-
-      fetch('/api/v1/auth/token', {
+    Login () {
+      const email = this.email
+      const pwd = this.pwd
+      fetch('http://localhost:3000/client/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          login,
-          password
+          email,
+          pwd
         })
       })
-        .then(res => res.json())
-        .then(({ success, token, message }) => {
-          localStorage.setItem('token', token)
+        .then(res => {
+          res.json()
+          if (res.status === 401) { alert('Invalid credential') }
+          if (res.status === 200) {
+            alert('Login sucessfull')
+            console.log(res.rôle)
+          }
         })
         .catch(error => { this.error = error })
     }
