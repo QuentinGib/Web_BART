@@ -9,9 +9,8 @@ const router = require('./routes/index.js')
 
 // dotenv.config()
 
-app.use('/api/v1', router)
-
 app.use(bodyParser.json())
+app.use('/api/v1', router)
 
 // BDD region
 const cors = require("cors");
