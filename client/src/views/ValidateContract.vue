@@ -10,10 +10,10 @@
   <navbar></navbar>
   <main>
     <h1 id="theme">Valider un contrat</h1>
-    <form class="form-infoSCvalidate">
+    <form class="form-infoSCvalidate" @submit.prevent="VoirContrat">
       <div class="form-group">
         <label for="">Numéro du contrat</label>
-        <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="Id Contract" required>
+        <input v-model="id_contrat"  type="text" id="id_contrat" class="form-control" placeholder="Id Contract" required>
       </div>
       <div>
         <button type="submit" class="btn">Voir le contrat</button>
@@ -21,7 +21,7 @@
     </form>
     <div class="Icontract">
       <h2>Infos du contrat</h2>
-      <h3>{{Contract}}</h3>
+      <h3>{{storage.TJM}}</h3>
       <p> une fonction SQL qui récuperent les infos pour la blockchain</p>
     </div>
     <div>
@@ -39,12 +39,33 @@ export default {
   name: 'Validate',
   data () {
     return {
-      Contract: 'C1'
+      id_contrat: '',
+      storage: []
     }
   },
   components: {
     navbar: Nav,
     foot: Foot
+  },
+  methods: {
+    VoirContrat () {
+      const id = this.id_contrat
+      fetch('http://localhost:3000/api/v1/infosSC/', {
+        method: 'POST',
+        headers: {
+          method: 'POST',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id
+        })
+      })
+        .then((res) => res.json())
+        .then(({ storage }) => {
+          this.storage = storage
+        })
+        .catch(error => { this.error = error })
+    }
   }
 }
 </script>

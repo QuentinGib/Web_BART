@@ -19,7 +19,7 @@ router.get('/setAll', (req, res) => {
     
     const body = req.body
 
-    const contractParameters = '(Pair (Pair 300 "tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK") (Pair "SCfromConseiljs7" (Pair "tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ" 22)))'
+    const contractParameters = '(Pair (Pair 300 "tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK") (Pair "SCfromConseiljs10" (Pair "tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ" 22)))'
 
     // const entryPoints = conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters);
 
