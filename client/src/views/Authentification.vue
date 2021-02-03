@@ -61,7 +61,8 @@ export default {
     Login () {
       const email = this.email
       const pwd = this.pwd
-      fetch('http://localhost:3000/client/login', {
+      const proxyurl = 'https://cors-anywhere.herokuapp.com/'
+      fetch(proxyurl + 'http://localhost:3000/client/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'

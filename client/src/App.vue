@@ -71,7 +71,8 @@ header {
 
 #theme {
     font-size: 3em;
-    padding-top: 10px;
+    padding-top: 5px;
+    margin-bottom: 5%;
     display: flex;
     justify-content: center;
     color: #00638a;
