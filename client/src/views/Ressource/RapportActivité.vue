@@ -13,17 +13,14 @@
     <form class="form-ra">
       <div class="form-group">
         <div ><label for="">Numéro du contract</label></div>
-        <div class="RAS"><select name="Contrat" id="Contrat">
+        <div class="RAS"><select name="Contract" id="Contract" v-model="contrat">
           <option value="">--Contract--</option>
   <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
   </select></div>
       </div>
       <div class="form-group">
         <div><label for="">Nombre d'heures</label></div>
-        <div class="RAS"><select name="Contrat" id="Contrat">
-        <option value="">--Heures--</option>
-  <option v-bind:key="index" v-for="(heure,index) in Heures">{{heure}}</option>
-  </select></div>
+        <input v-model="Heures"  type="number" id="heure" class="form-control" placeholder="Nombres d'heure" required>
       </div>
       <p>Mettre un PDF ici pour un rapport de contract plus complet</p>
       <div>
@@ -43,7 +40,8 @@ export default {
   data () {
     return {
       Contrats: ['C1', 'C2', 'C3', 'C4'],
-      Heures: ['32', '50', '345', '1']
+      contrat: '',
+      Heures: null
     }
   },
   components: {

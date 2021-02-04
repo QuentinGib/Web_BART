@@ -9,35 +9,47 @@
 <body>
   <navbar></navbar>
   <main class="main-asksc">
-    <h1 id="theme">Demander un contract</h1>
-    <form class="form-asksc">
+    <h1 id="theme">Demander un contrat</h1>
+    <form class="form-asksc" @submit.prevent="sendEmail">
       <div class="form-group">
         <label for="">Nom de l'Entreprise</label>
-        <input v-model="id"  type="text" id="id" class="form-control" placeholder="Nom Entreprise" required>
+        <input
+          v-model="NomEntreprise"
+          type="text"
+          id="id"
+          class="form-control"
+          placeholder="Nom Entreprise"
+          required
+        >
       </div>
       <div class="form-group">
-                <label for="">Début de la mission</label>
-                <div class="inline">
-                <input v-model="s_day"  type="number" id="s_day" class="form-control" placeholder="DD" required maxlength="2" max="31" min="1">
-                <input v-model="s_mouth"  type="number" id="s_mouth" class="form-control" placeholder="MM" required maxlength="2" max="12" min="1">
-                <input v-model="s_year"  type="number" id="s_year" class="form-control" placeholder="YYYY" required maxlength="4" min="2021" max="2050">
-                </div>
-            </div>
-             <div class="form-group">
-                <label for="">Fin de la mission</label>
-                <div class="inline">
-                <input v-model="e_day"  type="number" id="e_day" class="form-control" placeholder="DD" required maxlength="2" max="31" min="1">
-                <input v-model="e_mouth"  type="number" id="e_mouth" class="form-control" placeholder="MM" required maxlength="2" max="12" min="1">
-                <input v-model="e_year"  type="number" id="e_year" class="form-control" placeholder="YYYY" required maxlength="4" min="2021" max="2050">
-                </div>
-            </div>
+        <label for="">Début de la mission</label>
+        <div class="inline">
+          <date :date="Debut"></date>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="">Fin de la mission</label>
+        <div class="inline">
+          <date :date="Fin"></date>
+        </div>
+      </div>
       <div class="form-group">
         <label for="">Description</label>
-        <textarea style="height: 400px" v-model="Description" id="Description" class="form-control-description" placeholder="Description" required></textarea>
+        <textarea
+          style="height: 400px"
+          v-model="Description"
+          id="Description"
+          class="form-control-description"
+          placeholder="Description"
+          required
+        >
+        </textarea>
       </div>
       <div>
         <button type="submit" class="btn">Envoyer</button>
       </div>
+      <spin v-if="chargement"></spin>
     </form>
   </main>
   <foot></foot>
@@ -47,11 +59,46 @@
 <script>
 import Nav from '../../components/nav/nav'
 import Foot from '../../components/footer/foot.vue'
+import Datepicker from '../../components/Datepicker.vue'
+import Spinner from '../../components/spinner.vue'
+import emailjs from 'emailjs-com'
 export default {
   name: 'AskContract', // demande un contract
   components: {
     navbar: Nav,
-    foot: Foot
+    date: Datepicker,
+    foot: Foot,
+    spin: Spinner
+  },
+  data () {
+    return {
+      NomEntreprise: '',
+      Debut: {},
+      Fin: {},
+      Description: '',
+      chargement: false
+    }
+  },
+  methods: {
+    sendEmail (e) {
+      this.chargement = true
+      emailjs.init('user_lnmBZynZVFEI0tVt51BKl')
+      try {
+        const NomEntreprise = this.NomEntreprise
+        const Description = this.Description
+        const Debut = this.Debut.time
+        const Fin = this.Fin.time
+        emailjs.send('service_pytzwua', 'template_yqcdr8z', {
+          fromName: NomEntreprise,
+          description: Description,
+          debut: Debut,
+          fin: Fin
+        })
+        this.chargement = false
+      } catch (error) {
+        console.log({ error })
+      }
+    }
   }
 }
 </script>
