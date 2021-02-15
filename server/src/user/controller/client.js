@@ -3,6 +3,8 @@ const pool = require('../model/dbpool')
 const bcrypt = require('bcrypt')
 
 
+
+
 exports.register = (req, res, next) => {
     bcrypt.hash(req.body.pwd, 10)
         .then(hash => {
@@ -14,6 +16,7 @@ exports.register = (req, res, next) => {
             if(error) throw error;
             })              
             res.status(201).json({ message:"Inscription succès" })
+            
         })
         .catch(error => res.status(400).json({ error: "erreur" }));
     
@@ -34,8 +37,8 @@ exports.login = (req, res, next) => {
         bcrypt.compare(req.body.pwd,user[0].pwd)
         .then(result => {
             if(!result){ return res.status(401).json({error : "invalid credential"})};
-            console.log(user[0].rôle)
-            res.status(200).json({rôle: user[0].rôle});     
+            res.status(200).json({rôle: user[0].rôle})
+            
         })
         .catch(error => { this.error = error })
         })
