@@ -14,7 +14,7 @@
       <div class="form-group">
         <div ><label for="">Numéro du contract</label></div>
         <div class="RAS"><select name="Contract" id="Contract" v-model="contrat">
-          <option value="">--Contract--</option>
+          <option value="C1">--Contrat--</option>
   <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
   </select></div>
       </div>
@@ -22,26 +22,43 @@
         <div><label for="">Nombre d'heures</label></div>
         <input v-model="Heures"  type="number" id="heure" class="form-control" placeholder="Nombres d'heure" required>
       </div>
-      <p>Mettre un PDF ici pour un rapport de contract plus complet</p>
-      <div>
-          <button type="submit" class="btn">Envoyer</button>
+      <!-- mettre pdf -->
+      <div class="fichier">
+      <input type="file" @change="onFileChanged">
+      <button type="button" @click="onUpload">Upload!</button>
       </div>
+       <div>
+      <button type="submit" class="btn">Envoyer</button>
+    </div>
+      <!-- Fin -->
     </form>
+    <h1>{{contrat}} + {{Heures}} +{{File}}</h1>
   </main>
   <foot></foot>
 </body>
 </html>
 </template>
 <script>
-import Nav from '../../components/nav/nav'
+import Nav from '../../components/nav/nav.vue'
 import Foot from '../../components/footer/foot.vue'
+import axios from 'axios'
 export default {
-  name: 'Activité',
+  name: 'Activite',
   data () {
     return {
       Contrats: ['C1', 'C2', 'C3', 'C4'],
       contrat: '',
-      Heures: null
+      Heures: null,
+      File: null
+    }
+  },
+  methods: {
+    onFileChanged (event) { this.File = event.target.files[0] },
+    onUpload () {
+      const mypostparameters = new FormData()
+      mypostparameters.append('pdf', this.File, this.File.name)
+      mypostparameters.append('USERID', 21)
+      axios.post('/uploadmyfile', mypostparameters)
     }
   },
   components: {
@@ -70,5 +87,16 @@ export default {
   height: 90%;
   width: 80%;
   font-size: 170%;
+}
+.fichier {
+  display: flex;
+  flex-direction: column;
+  font-size: 150%;
+  margin-bottom: 3rem;
+}
+.fichier >button {
+  width: 30%;
+  background-color: rgb(206, 66, 66);
+  color: white;
 }
 </style>
