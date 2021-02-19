@@ -111,7 +111,7 @@ export default {
       TJM: '12',
       Intervenant: 'I31J3I1',
       Liste_Intervenant: ['I31J3I1', '1', 'YG2IG2', 'UJ324I'],
-      modif_s_day: '5',
+      modif_s_day: '',
       modif_s_mouth: '',
       modif_s_year: '',
       modif_e_day: '',
@@ -129,7 +129,7 @@ export default {
       }
     },
     Modifier_sm: function () {
-      if (this.modif_s_mouth < 12 && this.modif_s_mouth > 0) {
+      if (this.modif_s_mouth < 13 && this.modif_s_mouth > 0) {
         this.s_mouth = this.modif_s_mouth
       }
     },
@@ -144,7 +144,7 @@ export default {
       }
     },
     Modifier_em: function () {
-      if (this.modif_e_mouth < 12 && this.modif_e_mouth > 0) {
+      if (this.modif_e_mouth < 13 && this.modif_e_mouth > 0) {
         this.e_mouth = this.modif_e_mouth
       }
     },

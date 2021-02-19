@@ -50,6 +50,10 @@ export default {
     text-decoration: none;
 }
 
+.logo-img {
+  max-width: 30%;
+}
+
 .main-nav {
     display: flex;
     justify-content: space-between;

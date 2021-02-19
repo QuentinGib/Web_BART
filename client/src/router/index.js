@@ -4,11 +4,12 @@ import Home from '../views/Home.vue'
 import HowKey from '../views/HowKey.vue'
 import AskContract from '../views/Client/AskContract.vue'
 import Validate from '../views/ValidateContract.vue'
-import Activité from '../views/Ressource/RapportActivité.vue'
+import Activite from '../views/Ressource/RapportActivite.vue'
 import Proposer from '../views/Entreprise/ProposerContract.vue'
 import GestionRh from '../views/Entreprise/GestionRh.vue'
 import Modifier from '../views/Entreprise/ModifierContract.vue'
 import Contract from '../views/Entreprise/PageContract.vue'
+import Spinner from '../components/spinner.vue'
 const routes = [
   {
     path: '/',
@@ -18,7 +19,15 @@ const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter (to, from, next) {
+      const token = localStorage.getItem('token')
+      if (token) {
+        next(true)
+        return
+      }
+      next({ name: 'Authentification' })
+    },
   },
   {
     path: '/HowCanIuseMyKey',
@@ -36,9 +45,9 @@ const routes = [
     component: Validate
   },
   {
-    path: '/RapportActivité',
-    name: 'Activité',
-    component: Activité
+    path: '/RapportActivite',
+    name: 'Activite',
+    component: Activite
   },
   {
     path: '/ProposerContract',
@@ -51,9 +60,14 @@ const routes = [
     component: GestionRh
   },
   {
-    path: '/ModifierContract',
+    path: '/ModifierContract/:slug',
     name: 'Modifier',
     component: Modifier
+  },
+  {
+    path: '/Spinner',
+    name: 'spin',
+    component: Spinner
   },
   {
     path: '/PageContract/:slug',

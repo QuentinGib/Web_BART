@@ -16,14 +16,21 @@
         <h3>Contract en cours</h3>
         <select name="Contract" id="Contract" v-model="Contrat">
           <option value="">--Contract--</option>
+  <!--
   <option v-bind:key="index" v-for="(Contract,index) in Contracts">
     {{Contract}}
+    </option> -->
+    <option v-for="Contrat in Contracts" :key="Contrat">
+      <router-link :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
+          {{ Contrat}}
+        </router-link>
     </option>
   </select>
   <p>{{Contrat}}</p>
+  <!--
   <div>
       <button type="button" class="btn">Validez !</button>
-  </div>
+  </div>-->
       </div>
       </form>
       <br>
