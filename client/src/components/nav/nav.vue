@@ -9,13 +9,24 @@
 import Navclient from './navclient.vue'
 import Navressource from './navressource.vue'
 import Naventreprise from './naventreprise.vue'
+import VueCookies from 'vue-cookies'
 export default {
   name: 'Nav',
   data () {
     return {
-      client: true,
+      client: false,
       ressource: false,
       entreprise: false
+    }
+  },
+  mounted () {
+    const role = VueCookies.get('role')
+    if (role === 'client') {
+      this.client = true
+    } else if (role === 'ressource') {
+      this.ressource = true
+    } else if (role === 'entreprise') {
+      this.entreprise = true
     }
   },
   components: {

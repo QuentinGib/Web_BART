@@ -44,6 +44,7 @@
 </template>
 
 <script>
+import VueCookies from 'vue-cookies'
 export default {
   name: 'Authentification',
   components: {
@@ -61,8 +62,7 @@ export default {
     Login () {
       const email = this.email
       const pwd = this.pwd
-      const proxyurl = 'https://cors-anywhere.herokuapp.com/'
-      fetch(proxyurl + 'http://localhost:3000/client/login', {
+      fetch('http://localhost:3000/client/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -77,7 +77,11 @@ export default {
           if (res.status === 401) { alert('Invalid credential') }
           if (res.status === 200) {
             alert('Login sucessfull')
-            console.log(res.rôle)
+            VueCookies.set('role', res.rôle, '1h')
+            this.$router.push({
+              name: 'Home',
+              query: { redirect: '/Home' }
+            })
           }
         })
         .catch(error => { this.error = error })

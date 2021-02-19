@@ -19,15 +19,15 @@ const routes = [
   {
     path: '/Home',
     name: 'Home',
-    component: Home,
-    beforeEnter (to, from, next) {
+    component: Home
+    /* beforeEnter (to, from, next) {
       const token = localStorage.getItem('token')
       if (token) {
         next(true)
         return
       }
       next({ name: 'Authentification' })
-    },
+    } */
   },
   {
     path: '/HowCanIuseMyKey',

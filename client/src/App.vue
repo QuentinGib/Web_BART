@@ -15,7 +15,6 @@
     <router-view/>
 </html>
 </template>
-
 <style>
 html {
     font-family : Arial, Helvetica, sans-serif;
