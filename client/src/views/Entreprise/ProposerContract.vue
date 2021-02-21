@@ -10,18 +10,18 @@
     <navbar></navbar>
     <main class="main-newsc">
         <h1 id="theme">Proposer un contrat</h1>
-        <form class="form-newsc">
+        <form class="form-newsc" @submit.prevent="sendContract">
             <div class="form-group">
                 <label for="">Numéro du contrat </label>
-                <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="Id Contract" required>
+                <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="ex: CT-212" required>
             </div>
             <div class="form-group">
                 <label for="">Mission </label>
-                <input v-model="mission"  type="text" id="mission" class="form-control" placeholder="Mission" required>
+                <input v-model="mission"  type="text" id="mission" class="form-control" placeholder="ex: Analyse sécurité" required>
             </div>
             <div class="form-group">
                 <label for="">Identifiant Client </label>
-                <input v-model="id_Client"  type="text" id="id_Client" class="form-control" placeholder="Id Client" required>
+                <input v-model="id_Client"  type="text" id="id_Client" class="form-control" placeholder="ex: Google-12" required>
             </div>
             <div class="form-group">
                 <label for="">Début de la mission</label>
@@ -40,16 +40,16 @@
                 </div>
             </div>
             <div class="form-group">
-                <label for="">Nombre d'heures </label>
-                <input v-model="heure"  type="number" id="heure" class="form-control" placeholder="Nombres d'heure" required>
+                <label for="">Nombre de jours </label>
+                <input v-model="jours"  type="number" id="jours" class="form-control" placeholder="ex: 5" required>
             </div>
             <div class="form-group">
                 <label for="">TJM </label>
-                <input v-model="TJM"  type="number" id="TJM" class="form-control" placeholder="TJM" required>
+                <input v-model="TJM"  type="number" id="TJM" class="form-control" placeholder="ex: 100" required>
             </div>
             <div class="form-group">
                 <label for="">Intervenant </label>
-                <input v-model="Intervenant"  type="text" id="Intervenant" class="form-control" placeholder="Intervenant" required>
+                <input v-model="Intervenant"  type="text" id="Intervenant" class="form-control" placeholder="ex: Jacques Dupont" required>
             </div>
             <div>
                 <button type="submit" class="btn">Créer et envoyer</button>
@@ -76,9 +76,32 @@ export default {
       e_day: '',
       e_mouth: '',
       e_year: '',
-      heure: '',
+      jours: '',
       TJM: '',
       Intervenant: ''
+    }
+  },
+  methods: {
+    sendContract () {
+      // Retrouver les public key du client et ressource
+      const pubKeyClient = 'pubKeyClient'
+      const pubKeyRessource = 'pubKeyRessource'
+      // Blockchain
+      fetch('http://localhost:3000/api/v1/accessSC/setAll', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          TJM: this.TJM,
+          client: pubKeyClient,
+          id: this.id_Contract,
+          ressource: pubKeyRessource,
+          time: this.jours
+        }),
+        redirect: 'follow'
+      })
+        .then((res) => res.json())
     }
   },
   components: {

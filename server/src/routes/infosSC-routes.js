@@ -70,7 +70,7 @@ function findMyContracts (complete_storage, role, pubKey) {
     
     // Puis on cherche les infos de chaque contrat
     contracts_held = []
-    for(var contratID of contracts_held) {
+    for(var contratID of id_of_contracts_held) {
         entreprise = undefined
         if(role === 'client') {
             entreprise = 'OnePoint'
@@ -91,7 +91,7 @@ function findMyContracts (complete_storage, role, pubKey) {
     return contracts_held
 }
 
-router.get('/mycontracts', function getRoot(req, res) {
+router.post('/mycontracts', function getRoot(req, res) {
 
     const path = '/contract/delphinet/' + addressSC + '/storage'
 

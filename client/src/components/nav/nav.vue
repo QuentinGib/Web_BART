@@ -28,13 +28,13 @@ export default {
     } else if (role === 'entreprise') {
       this.entreprise = true
     }
+    this.entreprise = true
   },
   components: {
     navclient: Navclient,
     navressource: Navressource,
     naventreprise: Naventreprise
   }
-  // créer une méthode pour extraire la function de la personne (client/ressource/entreprise)
 }
 </script>
 <style>

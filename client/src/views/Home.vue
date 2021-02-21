@@ -42,7 +42,7 @@
           <tr>
             <td>Numéro de Contract</td>
             <td>Entreprise</td>
-            <td>Nombre d'heures</td>
+            <td>Nombre de jours</td>
             <td>Début du Contract</td>
             <td>Total</td>
           </tr>
@@ -51,7 +51,7 @@
             <td>{{TE[index]}}</td>
             <td>{{TH[index]}}</td>
             <td>{{TD[index]}}</td>
-            <td>{{TP[index]}}</td>
+            <td>{{TP[index]}} €</td>
           </tr>
         </table>
       </div>
@@ -69,12 +69,32 @@ export default {
     return {
       Contrat: '',
       Contracts: ['C1', 'C2', 'C3', 'C4'],
-      TC: ['T1', 'T2', 'T3', 'T4'],
-      TE: ['Onepoint', 'Onepoint', 'Parterns', 'Cap'],
-      TH: ['32', '50', '345', '1'],
-      TD: ['16-01-2003', '05-10-2006', '09-07-2013', '28-06-2017'],
-      TP: ['329,24', '423,43', '1322,21', '31,13']
+      TC: [],
+      TE: [],
+      TH: [],
+      TD: ['16-01-2003'],
+      TP: []
     }
+  },
+  mounted () {
+    fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        role: 'client',
+        pubKey: 'tz1dYGsagmf3m47JYtTWzZwByeM13fTktc4M'
+      }),
+      redirect: 'follow'
+    })
+      .then((res) => res.json())
+      .then(({ storage }) => {
+        this.TC = storage.map(contrat => contrat.id)
+        this.TE = storage.map(contrat => contrat.entreprise)
+        this.TH = storage.map(contrat => contrat.time)
+        this.TP = storage.map(contrat => (parseInt(contrat.time, 10) * parseInt(contrat.TJM, 10)).toString())
+      })
   },
   components: {
     foot: Foot,

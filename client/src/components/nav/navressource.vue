@@ -8,7 +8,7 @@
         </header>
         <div class="main-nav" id="mainnav">
           <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>
-          <router-link class="main-tab" :to="{ name: 'Activité' }">📊 Rapport d'activité
+          <router-link class="main-tab" :to="{ name: 'Activite' }">📊 Rapport d'activité
               </router-link
           >
           <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider son contract
