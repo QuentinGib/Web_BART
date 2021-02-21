@@ -2,9 +2,7 @@
 <div>
     <div class="main-header">
         <header class="main-header-title">
-          <h1>
-            B.A.R.T.
-          </h1>
+          <img src="./../../../public/img/logoBART.png" alt="" class="logo-img">
         </header>
         <div class="main-nav" id="mainnav">
           <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>

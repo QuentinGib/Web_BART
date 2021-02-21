@@ -63,6 +63,7 @@
 <script>
 import Nav from '../components/nav/nav.vue'
 import Foot from '../components/footer/foot.vue'
+import VueCookies from 'vue-cookies'
 export default {
   name: 'Home',
   data () {
@@ -77,13 +78,14 @@ export default {
     }
   },
   mounted () {
+    const role = VueCookies.get('role')
     fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        role: 'client',
+        role: role,
         pubKey: 'tz1dYGsagmf3m47JYtTWzZwByeM13fTktc4M'
       }),
       redirect: 'follow'

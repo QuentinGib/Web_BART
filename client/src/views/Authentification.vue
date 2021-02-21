@@ -73,15 +73,17 @@ export default {
         })
       })
         .then(res => {
-          res.json()
           if (res.status === 401) { alert('Invalid credential') }
           if (res.status === 200) {
             alert('Login sucessfull')
-            VueCookies.set('role', res.rôle, '1h')
-            this.$router.push({
-              name: 'Home',
-              query: { redirect: '/Home' }
-            })
+            res.json()
+              .then(res => {
+                VueCookies.set('role', res.rôle, '1h')
+                this.$router.push({
+                  name: 'Home',
+                  query: { redirect: '/Home' }
+                })
+              })
           }
         })
         .catch(error => { this.error = error })

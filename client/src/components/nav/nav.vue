@@ -28,7 +28,6 @@ export default {
     } else if (role === 'entreprise') {
       this.entreprise = true
     }
-    this.entreprise = true
   },
   components: {
     navclient: Navclient,
