@@ -41,10 +41,17 @@
               </li>
             </ul>
             <span class="pricing-price">Montant total : XXX.XX €</span>
-            <button type="submit" class="pricing-button">✒️ Signer le contrat</button>
+            <button type="button" v-on:click="Signature()" class="pricing-button">✒️ Signer le contrat</button>
           </div>
         </div>
       </div>
+    </div>
+    <div class="prv">
+        <label for="cle">Clé Privée</label>
+        <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="clé privée" required>
+        <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
+        <button type="button"  v-on:click="poser_prv()">mettre sa clé privée</button>
+        <h3>Ne jamais Divulguer sa clé privée !!!</h3>
     </div>
   </main>
   <foot></foot>
@@ -59,6 +66,9 @@ export default {
   data () {
     return {
       id_contrat: '',
+      cle_prv: '',
+      passwordFieldType: 'password',
+      show: 'voir la clé privée',
       storage: [],
       afficheContrat: false
     }
@@ -86,6 +96,18 @@ export default {
         })
         .then(this.afficheContrat = true)
         .catch(error => { this.error = error })
+    },
+    Visibilite () {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+    },
+    Show () {
+      this.show = this.show === 'voir la clé privée' ? 'masquer la clé privée' : 'voir la clé privée'
+    },
+    poser_prv () {
+      this.cle_prv = document.getElementById('pose_prv').value
+    },
+    Signature () {
+      /* envoie clé publique et clé privée dans le testnet */
     }
   }
 }
@@ -234,5 +256,55 @@ export default {
 .pricing-button.is-featured:hover,
 .pricing-button.is-featured:active {
   background-color: #269aff;
+}
+.prv {
+    display:inline-block;
+    width: 80%;
+    justify-content: center;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    border: solid black;
+}
+.prv >label{
+    margin-bottom: .5rem;
+    font-size: 200%;
+}
+.prv-control {
+    display: block;
+    width: 70%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+}
+.prv>button {
+  background-color: #495057;
+  color: #fff;
+  width: 40%;
+  font-size: 200%;
+  margin-bottom: 5px;
+  border-radius: 10px;
+}
+.prv>button:hover {
+  background-color: black;
+}
+.prv>h3 {
+  font-size: 200%;
+  color: #0093CD;
+}
+.montrer{
+  text-align: center;
+  width: 20%;
+  border-radius: 10px;
+  margin-bottom: 2rem;
+  font-size:100%;
+  background-color: rgb(51, 78, 128);
+  color: #fff;
 }
 </style>

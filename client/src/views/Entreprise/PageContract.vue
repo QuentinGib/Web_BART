@@ -1,33 +1,35 @@
+<!--Copie/colle tous-->
 <template>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>PageContract</title>
+  <title>PageContrat</title>
 </head>
 <body>
   <navbar></navbar>
   <div class="PageHeader">
     <h1>Nom du Contrat</h1>
-    <h3>{{ $route.params.slug}}</h3>
+    <h3 id="Contrat">{{ $route.params.slug}}</h3>
     <h3>Début du contrat : {{Debut}}</h3>
     <h3>Fin du contrat : {{Fin}}</h3>
-    <!-- Mettre des v-if si Entreprise ou Client -->
-    <h3></h3>
+    <h3>Nombre de Jour : {{Jours}}</h3>
+    <h3>TJM : {{TJM}}</h3>
   </div>
   <br>
   <div class='PageCenter'>
-    <div>
       <h2>Etat de validité du contrat :  </h2>
       <h2> {{Etat}}</h2>
-    </div>
-    <button class="btn">Envoyer la facture</button>
   </div>
   <br>
-  <div class="PageBas">
-    <h2>Modifier contract</h2>
-    <button class="btn">Modifier contrat</button>
+  <div v-if="fonction === 0" class="PageBas">
+    <h2>Envoyer la facture</h2>
+    <p class="facture">Envoyez la facture {{Contrat.slug}}</p>
+    <h2>Modifier contrat</h2>
+      <router-link class="Modifier" :to="{name: 'Modifier', params: { slug: Contrat.slug }}">
+         Modifier le Contrat {{Contrat.slug}}
+        </router-link>
   </div>
   <foot></foot>
 </body>
@@ -40,15 +42,21 @@ export default {
   name: 'Contract',
   data () {
     return {
-      nombre_heure: 23,
+      Contrat: {},
+      Jours: '31.5',
       Debut: '',
       Fin: '',
-      Etat: 'en cours'
+      TJM: 34,
+      Etat: 'en cours',
+      fonction: 0
     }
   },
   components: {
     navbar: Nav,
     foot: Foot
+  },
+  mounted () {
+    this.Contrat.slug = document.getElementById('Contrat').textContent
   }
 }
 </script>
@@ -82,13 +90,34 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 10rem;
+  margin-top: 5rem;
 }
-.PageBas >Button {
-  width: 30%;
-  background-color: aqua;
+.facture{
+  background-color: rgb(94, 182, 94);
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 200%;
 }
-.PageBas >button:hover{
-  background-color: blue;
+
+.facture:hover {
+  background-color: rgb(74, 168, 74);
+}
+.Modifier{
+  background-color: orange;
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  border-radius: 10px;
+  text-decoration: none;
+  color: white;
+  font-size: 200%;
+}
+
+.Modifier:hover {
+  background-color: orangered;
 }
 </style>

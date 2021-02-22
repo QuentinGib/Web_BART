@@ -11,28 +11,18 @@
   <main>
       <h1 id="theme">Bienvenue dans votre espace client</h1>
       <br>
-      <form>
       <div class="Encours">
-        <h3>Contract en cours</h3>
-        <select name="Contract" id="Contract" v-model="Contrat">
-          <option value="">--Contract--</option>
-  <!--
+        <h3>Contrat en cours</h3>
+        <select name="Contract" id="Contract" v-model="Contrat.slug">
+  <option value="">--Contrat--</option>
   <option v-bind:key="index" v-for="(Contract,index) in Contracts">
     {{Contract}}
-    </option> -->
-    <option v-for="Contrat in Contracts" :key="Contrat">
-      <router-link :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
-          {{ Contrat}}
-        </router-link>
     </option>
   </select>
-  <p>{{Contrat}}</p>
-  <!--
-  <div>
-      <button type="button" class="btn">Validez !</button>
-  </div>-->
+  <router-link class='VoirContrat' :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
+         Voir le Contrat {{Contrat.slug}}
+        </router-link>
       </div>
-      </form>
       <br>
       <div>
         <table class="Thistorique">
@@ -68,7 +58,7 @@ export default {
   name: 'Home',
   data () {
     return {
-      Contrat: '',
+      Contrat: {},
       Contracts: ['C1', 'C2', 'C3', 'C4'],
       TC: [],
       TE: [],
@@ -133,5 +123,19 @@ select {
 .Thistorique tr td {
   padding: 5px;
   border: 3px gray solid;
+}
+.VoirContrat{
+  display: flex;
+  justify-content: center;
+  width: 50%;
+  background-color: rgb(35, 131, 187);
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 2rem;
+  text-decoration: none;
+}
+
+.VoirContrat:hover {
+  background-color: rgb(32, 62, 145);
 }
 </style>

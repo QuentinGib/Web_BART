@@ -11,7 +11,7 @@ conseiljs.registerFetch(fetch);
 const express = require('express')
 
 const tezosNode = 'https://tezos-dev.cryptonomic-infra.tech:443';
-const contractAddress = 'KT1Ju8yvVkrKW9v8xcFUtTrMq3ANmDormgnt'
+const contractAddress = 'KT1PqPiyWLXZQNyAkYcgWsJXX6zTmopGkCmf'
 
 const router = new express.Router()
 
@@ -19,7 +19,7 @@ router.get('/setAll', (req, res) => {
     
     const body = req.body
 
-    const contractParameters = '(Left (Right (Left (Pair (Pair 200 "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK") (Pair "test19-02" (Pair "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK" 30))))))'
+    const contractParameters = '(Left (Right (Left (Pair (Pair 200 "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK") (Pair "test22-02-conseiljs" (Pair "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK" 30))))))'
 
     // const entryPoints = conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters);
 

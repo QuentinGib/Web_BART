@@ -11,7 +11,7 @@
   <main>
     <div class="ModifHeader">
       <h1>Modifier Contract</h1>
-      <h3>{{id_Contrat}}</h3>
+      <h3 id="Contrat">{{ $route.params.slug}}</h3>
       </div>
       <br>
     <div>
@@ -66,10 +66,10 @@
             <td><button type="button"  v-on:click="Modifier_ey">Modifier</button></td>
           </tr>
           <tr>
-            <td>Nombre d'heures (h)</td>
-            <td>{{heure}}</td>
-            <td><input  type="number" v-model="modif_heure" class="form-control" placeholder="Nombres d'heure"></td>
-            <td><button type="button"  v-on:click="Modifier_h">Modifier</button></td>
+            <td>Nombre de Jours (j)</td>
+            <td>{{Jours}}</td>
+            <td><input  type="text" v-model="modif_jours" class="form-control" placeholder="Nombres de jours"></td>
+            <td><button type="button"  v-on:click="Modifier_j">Modifier</button></td>
           </tr>
           <tr>
             <td>TJM</td>
@@ -98,7 +98,7 @@ export default {
   name: 'Modifier',
   data () {
     return {
-      id_Contrat: 'VE79ZEG',
+      Contrat: '',
       mission: 'Faire du HTML',
       id_Client: 'I192J',
       s_day: '1',
@@ -107,7 +107,7 @@ export default {
       e_day: '4',
       e_mouth: '5',
       e_year: '2034',
-      heure: '314',
+      Jours: '31.5',
       TJM: '12',
       Intervenant: 'I31J3I1',
       Liste_Intervenant: ['I31J3I1', '1', 'YG2IG2', 'UJ324I'],
@@ -117,7 +117,7 @@ export default {
       modif_e_day: '',
       modif_e_mouth: '',
       modif_e_year: '',
-      modif_heure: '',
+      modif_jours: '',
       modif_TJM: '',
       modif_Intervenant: ''
     }
@@ -153,9 +153,9 @@ export default {
         this.e_year = this.modif_e_year
       }
     },
-    Modifier_h: function () {
-      if (this.modif_heure > 0) {
-        this.heure = this.modif_heure
+    Modifier_j: function () {
+      if (this.modif_jours) {
+        this.Jours = this.modif_jours
       }
     },
     Modifier_tjm: function () {
@@ -168,6 +168,9 @@ export default {
         this.Intervenant = this.modif_Intervenant
       }
     }
+  },
+  mounted () {
+    this.Contrat = document.getElementById('Contrat').textContent
   },
   components: {
     navbar: Nav,
