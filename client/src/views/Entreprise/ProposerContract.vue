@@ -10,7 +10,7 @@
     <navbar></navbar>
     <main class="main-newsc">
         <h1 id="theme">Proposer un contrat</h1>
-        <form class="form-newsc" @submit.prevent="sendContract">
+        <form class="form-newsc" @submit.prevent="sendContract" v-if="fillInPK === false">
             <div class="form-group">
                 <label for="">Numéro du contrat </label>
                 <input v-model="id_Contract"  type="text" id="id_Contract" class="form-control" placeholder="ex: CT-212" required>
@@ -55,6 +55,31 @@
                 <button type="submit" class="btn">Créer et envoyer</button>
             </div>
         </form>
+        <div v-if="fillInPK === true && hashTransaction === null" class="container">
+          <button type="button"  v-on:click="fillInPK = false" class="close-button">X</button>
+          <div class="panel pricing-table">
+            <div class="pricing-plan">
+                <label for="cle" class="pricing-header">🎉 Contrat créé et envoyé ! 🎉</label>
+                <div class="pricing-features">
+                  <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
+                </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="fillInPK === true && hashTransaction !== null" class="container">
+          <button type="button"  v-on:click="fillInPK = false; hashTransaction = undefined" class="close-button">X</button>
+          <div class="panel pricing-table">
+            <div class="pricing-plan">
+                <label for="cle" class="pricing-header">🔑 Clé Privée 🔑</label>
+                <div class="form-infoSCvalidate">
+                  <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="Entrez votre clé privée ici" required>
+                  <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
+                </div>
+                <button type="button"  v-on:click="createContract()" class="pricing-button">📨 Valider et envoyer</button>
+                <h3>Attention : ne jamais divulguer sa clé privée !</h3>
+            </div>
+          </div>
+        </div>
     </main>
     <foot></foot>
 </body>
@@ -78,14 +103,22 @@ export default {
       e_year: '',
       jours: '',
       TJM: '',
-      Intervenant: ''
+      Intervenant: '',
+      passwordFieldType: 'password',
+      show: 'montrer',
+      fillInPK: false,
+      hashTransaction: ''
     }
   },
   methods: {
     sendContract () {
+      this.fillInPK = true
+    },
+    createContract () {
       // Retrouver les public key du client et ressource
       const pubKeyClient = 'pubKeyClient'
       const pubKeyRessource = 'pubKeyRessource'
+      const clePrv = document.getElementById('pose_prv').value
       // Blockchain
       fetch('http://localhost:3000/api/v1/accessSC/setAll', {
         method: 'POST',
@@ -93,15 +126,27 @@ export default {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          TJM: this.TJM,
+          TJM: this.TJM.toString(),
           client: pubKeyClient,
           id: this.id_Contract,
           ressource: pubKeyRessource,
-          time: this.jours
+          time: this.jours.toString(),
+          privateKey: clePrv
         }),
         redirect: 'follow'
       })
         .then((res) => res.json())
+        .then(({ resultID }) => {
+          this.hashTransaction = resultID
+        })
+        .then(this.fillInPK = false)
+        .catch(error => { this.hashTransaction = error })
+    },
+    Visibilite () {
+      this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
+    },
+    Show () {
+      this.show = this.show === 'montrer' ? 'cacher' : 'montrer'
     }
   },
   components: {

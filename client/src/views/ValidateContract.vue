@@ -19,7 +19,7 @@
         <button type="submit" class="btn">Voir le contrat</button>
       </div>
     </form>
-    <div v-if="afficheContrat === true" class="Icontract">
+    <div v-if="afficheContrat === true && fillInPK === false" class="Icontract">
       <div class="container">
         <div class="panel pricing-table">
           <div class="pricing-plan">
@@ -41,17 +41,35 @@
               </li>
             </ul>
             <span class="pricing-price">Montant total : XXX.XX €</span>
-            <button type="button" v-on:click="Signature()" class="pricing-button">✒️ Signer le contrat</button>
+            <button type="button" v-on:click="fillInPK = true" class="pricing-button">✒️ Signer le contrat</button>
           </div>
         </div>
       </div>
     </div>
-    <div class="prv">
-        <label for="cle">Clé Privée</label>
-        <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="clé privée" required>
-        <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
-        <button type="button"  v-on:click="poser_prv()">mettre sa clé privée</button>
-        <h3>Ne jamais Divulguer sa clé privée !!!</h3>
+    <div v-if="afficheContrat === true && fillInPK === true && hashTransaction === null" class="container">
+      <button type="button"  v-on:click="fillInPK = false" class="close-button">X</button>
+      <div class="panel pricing-table">
+        <div class="pricing-plan">
+            <label for="cle" class="pricing-header">🎉 Signature réussie ! 🎉</label>
+            <div class="pricing-features">
+              <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
+            </div>
+        </div>
+      </div>
+    </div>
+    <div v-if="afficheContrat === true && fillInPK === true && hashTransaction !== null" class="container">
+      <button type="button"  v-on:click="fillInPK = false; hashTransaction = undefined" class="close-button">X</button>
+      <div class="panel pricing-table">
+        <div class="pricing-plan">
+            <label for="cle" class="pricing-header">🔑 Clé Privée 🔑</label>
+            <div class="form-infoSCvalidate">
+              <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="Entrez votre clé privée ici" required>
+              <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
+            </div>
+            <button type="button"  v-on:click="signer()" class="pricing-button">🔏 Valider et Signer</button>
+            <h3>Attention : ne jamais divulguer sa clé privée !</h3>
+        </div>
+      </div>
     </div>
   </main>
   <foot></foot>
@@ -66,11 +84,12 @@ export default {
   data () {
     return {
       id_contrat: '',
-      cle_prv: '',
       passwordFieldType: 'password',
-      show: 'voir la clé privée',
+      show: 'montrer',
       storage: [],
-      afficheContrat: false
+      afficheContrat: false,
+      fillInPK: false,
+      hashTransaction: ''
     }
   },
   components: {
@@ -101,13 +120,27 @@ export default {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
     },
     Show () {
-      this.show = this.show === 'voir la clé privée' ? 'masquer la clé privée' : 'voir la clé privée'
+      this.show = this.show === 'montrer' ? 'cacher' : 'montrer'
     },
-    poser_prv () {
-      this.cle_prv = document.getElementById('pose_prv').value
-    },
-    Signature () {
-      /* envoie clé publique et clé privée dans le testnet */
+    signer () {
+      const clePrv = document.getElementById('pose_prv').value
+      fetch('http://localhost:3000/api/v1/accessSC/validate', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id: this.id_contrat,
+          privateKey: clePrv
+        }),
+        redirect: 'follow'
+      })
+        .then((res) => res.json())
+        .then(({ resultID }) => {
+          this.hashTransaction = resultID
+        })
+        .then(this.fillInPK = false)
+        .catch(error => { this.hashTransaction = error })
     }
   }
 }
@@ -259,11 +292,12 @@ export default {
 }
 .prv {
     display:inline-block;
-    width: 80%;
+    width: 100%;
     justify-content: center;
     margin-bottom: 1rem;
     margin-top: 1rem;
     border: solid black;
+    text-transform: none;
 }
 .prv >label{
     margin-bottom: .5rem;
@@ -271,8 +305,10 @@ export default {
 }
 .prv-control {
     display: block;
-    width: 70%;
-    height: calc(1.5em + .75rem + 2px);
+    width: 80%;
+    height: calc(1em + .75rem + 2px);
+    margin: 1em;
+    margin-top: 1.5em;
     padding: .375rem .75rem;
     font-size: 1rem;
     font-weight: 400;
@@ -286,7 +322,7 @@ export default {
 .prv>button {
   background-color: #495057;
   color: #fff;
-  width: 40%;
+  width: 60%;
   font-size: 200%;
   margin-bottom: 5px;
   border-radius: 10px;
@@ -300,11 +336,25 @@ export default {
 }
 .montrer{
   text-align: center;
-  width: 20%;
-  border-radius: 10px;
-  margin-bottom: 2rem;
-  font-size:100%;
+  width: 8%;
+  border-radius: 80px;
+  padding-top: 15px;
+  margin: 1rem;
+  margin-top: 1.2rem;
+  font-size: 100%;
   background-color: rgb(51, 78, 128);
   color: #fff;
+  text-transform: none;
+}
+.close-button {
+  width: 45px;
+  height: 45px;
+  margin-bottom: 0.5em;
+  font-size: 150%;
+  border-radius: 50%;
+  color: black;
+  background-color: #4e493733;
+  border: none;
+  box-shadow: 0px 10px 13px -6px rgba(0, 0, 0, 0.08), 0px 20px 31px 3px rgba(0, 0, 0, 0.09), 0px 8px 20px 7px rgba(0, 0, 0, 0.02);
 }
 </style>

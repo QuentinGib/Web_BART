@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const router = new express.Router()
 
 const apiBaseUrl = 'https://api.better-call.dev/v1'
-const addressSC = 'KT1Ju8yvVkrKW9v8xcFUtTrMq3ANmDormgnt'
+const addressSC = 'KT1PqPiyWLXZQNyAkYcgWsJXX6zTmopGkCmf'
 
 // fonction qui retourne la valeur d'un élément (TJM, temps, client ...) d'un
 // contrat spécifique

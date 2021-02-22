@@ -35,7 +35,7 @@ exports.login = (req, res, next) => {
         .then(result => {
             if(!result){ return res.status(401).json({error : "invalid credential"})};
             console.log(user[0].rôle)
-            res.status(200).json({rôle: user[0].rôle});     
+            res.status(200).json({rôle: user[0].rôle, pub_key: user[0].pub_key});     
         })
         .catch(error => { this.error = error })
         })

@@ -79,6 +79,7 @@ export default {
             res.json()
               .then(res => {
                 VueCookies.set('role', res.rôle, '1h')
+                VueCookies.set('key', res.pub_key, '1h')
                 this.$router.push({
                   name: 'Home',
                   query: { redirect: '/Home' }

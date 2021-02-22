@@ -15,37 +15,28 @@ const contractAddress = 'KT1PqPiyWLXZQNyAkYcgWsJXX6zTmopGkCmf'
 
 const router = new express.Router()
 
-router.get('/setAll', (req, res) => {
+router.post('/setAll', (req, res) => {
     
     const body = req.body
 
-    const contractParameters = '(Left (Right (Left (Pair (Pair 200 "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK") (Pair "test22-02-conseiljs" (Pair "tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK" 30))))))'
+    const contractParameters = '(Left (Right (Left (Pair (Pair ' + body.TJM + ' "'
+        + body.client + '") (Pair "' + body.id + '" (Pair "' + body.ressource + '" ' + body.time + '))))))';
 
     // const entryPoints = conseiljs.TezosContractIntrospector.generateEntryPointsFromParams(contractParameters);
+    // const seAll = entryPoints[1].conseiljs.TezosMessageUtils.generateParameter(200,'tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK','sc-212','tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ',14);
 
-    //const seAll = entryPoints[1].conseiljs.TezosMessageUtils.generateParameter(200,'tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK','sc-212','tz1hpwSiB5fx65QC9ccuQ1B499Sv8GRZpfkZ',14);
-
-    /* const faucetAccount = {
-        "mnemonic": [ "biology", "sock", "donkey", "chase", "need", "deny", "space", "clock", "waste", "iron", "try", "make", "salmon", "kit", "slush"],
-        "secret": "de7edaf49877ed5cb4bec810ba898ec3bf56a50a",
-        "amount": "18157993464",
-        "pkh": "tz1ePT7nRT9ANnjzcdbREJHWmfEBJnS7rWtK",
-        "password": "4nZDzLS2Kc",
-        "email": "evxpxqaw.wjyiuwnf@tezos.example.org"
-    } */
-
-    const keystore = {
+    /* const keystore = {
         publicKey: 'edpkupYzFULZmAUEfhFae8sgnbP3icZf3eoEBh9AR8qd1kMiyLtMqu',
         privateKey: 'edskRxJUMvC45xZcxSgAP7cajzFB86BzyT2CWrVMvzA2ihaoahirxTU4NVJFSvFcjohPC9X97w5hueM6hqZWiLZAm3mY9CxVK9',
         publicKeyHash: 'tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK',
         seed: '',
         storeType: conseiljs.KeyStoreType.Fundraiser
-    };
+    }; */
 
-    // const keyStore = conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey('edskSACXP273g1JA9VxTTVqi6mN725DUCe67D2KkYhF38SkG2Wgvr3ZExaTVyvgKdpBaGBeoVNURGgK59VAFuMcUP2NPE5ZBfF');
     async function invokeContract() {
-        const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keystore.privateKey, 'edsk'));
-        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keystore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
+        const keyStore = await conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey(body.privateKey);
+        const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keyStore.secretKey, 'edsk'));
+        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keyStore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
         // const result = await conseiljs.TezosNodeWriter.sendContractPing(tezosNode, keystore, "KT1QccH45jTEZzyNwSHqR3yMwu2VpMpzALUe", 100000, '', 1000, 100000);
         res.json({
             success : result.results.contents[0].metadata.operation_result.status,
@@ -63,19 +54,10 @@ router.post('/validate', (req, res) => {
 
     const contractParameters = '(Right (Right (Right "' + body.id + '")))'
 
-    const keystore = {
-        publicKey: 'edpkupYzFULZmAUEfhFae8sgnbP3icZf3eoEBh9AR8qd1kMiyLtMqu',
-        privateKey: 'edskRxJUMvC45xZcxSgAP7cajzFB86BzyT2CWrVMvzA2ihaoahirxTU4NVJFSvFcjohPC9X97w5hueM6hqZWiLZAm3mY9CxVK9',
-        publicKeyHash: 'tz1YfWQzfJLHm7gFZZUWKWFV53JNaofoJHSK',
-        seed: '',
-        storeType: conseiljs.KeyStoreType.Fundraiser
-    };
-
-    // const keyStore = conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey('edskSACXP273g1JA9VxTTVqi6mN725DUCe67D2KkYhF38SkG2Wgvr3ZExaTVyvgKdpBaGBeoVNURGgK59VAFuMcUP2NPE5ZBfF');
     async function invokeContract() {
-        const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keystore.privateKey, 'edsk'));
-        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keystore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
-        // const result = await conseiljs.TezosNodeWriter.sendContractPing(tezosNode, keystore, "KT1QccH45jTEZzyNwSHqR3yMwu2VpMpzALUe", 100000, '', 1000, 100000);
+        const keyStore = await conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey(body.privateKey);
+        const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keyStore.secretKey, 'edsk'));
+        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keyStore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
         res.json({
             success : result.results.contents[0].metadata.operation_result.status,
             resultID : result.operationGroupID
