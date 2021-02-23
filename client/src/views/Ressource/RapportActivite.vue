@@ -9,30 +9,35 @@
 <body>
   <navbar></navbar>
   <main class="main-ra">
-    <h1 id="theme">Donner son Bilan</h1>
+    <h1 id="theme">Rapport d'activité</h1>
     <form class="form-ra">
       <div class="form-group">
-        <div ><label for="">Numéro du contract</label></div>
-        <div class="RAS"><select name="Contract" id="Contract" v-model="contrat">
-          <option value="C1">--Contrat--</option>
-  <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
-  </select></div>
+        <div >
+          <label for="">Numéro du contract</label>
+        </div>
+        <div class="RAS">
+          <select name="Contract" id="Contract" v-model="contrat">
+            <option value="C1">--Contrat--</option>
+            <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
+          </select>
+        </div>
       </div>
       <div class="form-group">
-        <div><label for="">Nombre d'heures</label></div>
-        <input v-model="Heures"  type="number" id="heure" class="form-control" placeholder="Nombres d'heure" required>
+        <div>
+          <label for="">Nombre de jours</label>
+        </div>
+        <input v-model="jours"  type="number" id="jours" class="form-control" placeholder="ex: 12" required>
       </div>
       <!-- mettre pdf -->
       <div class="fichier">
-      <input type="file" @change="onFileChanged">
-      <button type="button" @click="onUpload">Upload!</button>
+        <input type="file" @change="onFileChanged">
+        <button type="button" @click="onUpload">Upload!</button>
       </div>
-       <div>
-      <button type="submit" class="btn">Envoyer</button>
-    </div>
+      <div>
+        <button type="submit" class="btn">Envoyer</button>
+      </div>
       <!-- Fin -->
     </form>
-    <h1>{{contrat}} + {{Heures}} +{{File}}</h1>
   </main>
   <foot></foot>
 </body>
@@ -41,16 +46,35 @@
 <script>
 import Nav from '../../components/nav/nav.vue'
 import Foot from '../../components/footer/foot.vue'
+import VueCookies from 'vue-cookies'
 import axios from 'axios'
 export default {
   name: 'Activite',
   data () {
     return {
-      Contrats: ['C1', 'C2', 'C3', 'C4'],
+      Contrats: [],
       contrat: '',
-      Heures: null,
+      jours: null,
       File: null
     }
+  },
+  mounted () {
+    const publicKey = VueCookies.get('key')
+    fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        role: 'ressource',
+        pubKey: publicKey
+      }),
+      redirect: 'follow'
+    })
+      .then((res) => res.json())
+      .then(({ storage }) => {
+        this.Contrats = storage.map(contrat => contrat.id)
+      })
   },
   methods: {
     onFileChanged (event) { this.File = event.target.files[0] },

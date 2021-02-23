@@ -56,18 +56,7 @@
             </div>
         </form>
         <div v-if="fillInPK === true && hashTransaction === null" class="container">
-          <button type="button"  v-on:click="fillInPK = false" class="close-button">X</button>
-          <div class="panel pricing-table">
-            <div class="pricing-plan">
-                <label for="cle" class="pricing-header">🎉 Contrat créé et envoyé ! 🎉</label>
-                <div class="pricing-features">
-                  <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
-                </div>
-            </div>
-          </div>
-        </div>
-        <div v-if="fillInPK === true && hashTransaction !== null" class="container">
-          <button type="button"  v-on:click="fillInPK = false; hashTransaction = undefined" class="close-button">X</button>
+          <button type="button"  v-on:click="fillInPK = false; hashTransaction = null" class="close-button">X</button>
           <div class="panel pricing-table">
             <div class="pricing-plan">
                 <label for="cle" class="pricing-header">🔑 Clé Privée 🔑</label>
@@ -77,6 +66,17 @@
                 </div>
                 <button type="button"  v-on:click="createContract()" class="pricing-button">📨 Valider et envoyer</button>
                 <h3>Attention : ne jamais divulguer sa clé privée !</h3>
+            </div>
+          </div>
+        </div>
+        <div v-if="fillInPK === true && hashTransaction !== null" class="container">
+          <button type="button"  v-on:click="fillInPK = false; hashTransaction = null" class="close-button">X</button>
+          <div class="panel pricing-table">
+            <div class="pricing-plan">
+                <label for="cle" class="pricing-header">🎉 Contrat créé et envoyé ! 🎉</label>
+                <div class="pricing-features">
+                  <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
+                </div>
             </div>
           </div>
         </div>
@@ -139,7 +139,6 @@ export default {
         .then(({ resultID }) => {
           this.hashTransaction = resultID
         })
-        .then(this.fillInPK = false)
         .catch(error => { this.hashTransaction = error })
     },
     Visibilite () {

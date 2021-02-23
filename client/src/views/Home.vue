@@ -9,42 +9,42 @@
 <body>
   <navbar></navbar>
   <main>
-      <h1 id="theme">Bienvenue dans votre espace client</h1>
-      <br>
-      <div class="Encours">
-        <h3>Contrat en cours</h3>
-        <select name="Contract" id="Contract" v-model="Contrat.slug">
-  <option value="">--Contrat--</option>
-  <option v-bind:key="index" v-for="(Contract,index) in Contracts">
-    {{Contract}}
-    </option>
-  </select>
-  <router-link class='VoirContrat' :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
-         Voir le Contrat {{Contrat.slug}}
-        </router-link>
-      </div>
-      <br>
-      <div>
-        <table class="Thistorique">
-          <tr>
-            <td colspan=5 class="Theader">Historique</td>
-          </tr>
-          <tr>
-            <td>Numéro de Contract</td>
-            <td>Entreprise</td>
-            <td>Nombre de jours</td>
-            <td>Début du Contract</td>
-            <td>Total</td>
-          </tr>
-          <tr v-bind:key="index" v-for="(H,index) in TC">
-            <td>{{TC[index]}}</td>
-            <td>{{TE[index]}}</td>
-            <td>{{TH[index]}}</td>
-            <td>{{TD[index]}}</td>
-            <td>{{TP[index]}} €</td>
-          </tr>
-        </table>
-      </div>
+    <h1 id="theme">Bienvenue dans votre espace client</h1>
+    <br>
+    <div class="Encours">
+      <h3>Contrat en cours</h3>
+      <select name="Contract" id="Contract" v-model="Contrat.slug">
+        <option value="">--Contrat--</option>
+        <option v-bind:key="index" v-for="(Contract,index) in Contracts">
+          {{Contract}}
+        </option>
+      </select>
+      <router-link class='VoirContrat' :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
+        Voir le Contrat {{Contrat.slug}}
+      </router-link>
+    </div>
+    <br>
+    <div>
+      <table class="Thistorique">
+        <tr>
+          <td colspan=5 class="Theader">Historique</td>
+        </tr>
+        <tr>
+          <td>Numéro de Contract</td>
+          <td>Entreprise</td>
+          <td>Nombre de jours</td>
+          <td>Début du Contract</td>
+          <td>Total</td>
+        </tr>
+        <tr v-bind:key="index" v-for="(H,index) in TC">
+          <td>{{TC[index]}}</td>
+          <td>{{TE[index]}}</td>
+          <td>{{TH[index]}}</td>
+          <td>{{TD[index]}}</td>
+          <td>{{TP[index]}} €</td>
+        </tr>
+      </table>
+    </div>
   </main>
   <foot></foot>
 </body>

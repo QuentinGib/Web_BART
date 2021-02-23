@@ -13,7 +13,11 @@
     <form class="form-infoSCvalidate" @submit.prevent="VoirContrat">
       <div class="form-group">
         <label for="id_contrat" class="label-id-contrat">ID du contrat :</label>
-        <input v-model="id_contrat" class="input-id-contrat" type="text" id="id_contrat" required>
+        <select id="id_contrat" v-model="id_contrat" class="input-id-contrat">
+          <option v-bind:key="index" v-for="(Contract,index) in Contracts">
+            {{Contract}}
+          </option>
+        </select>
       </div>
       <div>
         <button type="submit" class="btn">Voir le contrat</button>
@@ -40,25 +44,14 @@
                 ..............................................................
               </li>
             </ul>
-            <span class="pricing-price">Montant total : XXX.XX €</span>
+            <p class="pricing-price">Montant total : {{storage.time*storage.TJM}}.00 €</p>
             <button type="button" v-on:click="fillInPK = true" class="pricing-button">✒️ Signer le contrat</button>
           </div>
         </div>
       </div>
     </div>
     <div v-if="afficheContrat === true && fillInPK === true && hashTransaction === null" class="container">
-      <button type="button"  v-on:click="fillInPK = false" class="close-button">X</button>
-      <div class="panel pricing-table">
-        <div class="pricing-plan">
-            <label for="cle" class="pricing-header">🎉 Signature réussie ! 🎉</label>
-            <div class="pricing-features">
-              <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
-            </div>
-        </div>
-      </div>
-    </div>
-    <div v-if="afficheContrat === true && fillInPK === true && hashTransaction !== null" class="container">
-      <button type="button"  v-on:click="fillInPK = false; hashTransaction = undefined" class="close-button">X</button>
+      <button type="button"  v-on:click="fillInPK = false; hashTransaction = null" class="close-button">X</button>
       <div class="panel pricing-table">
         <div class="pricing-plan">
             <label for="cle" class="pricing-header">🔑 Clé Privée 🔑</label>
@@ -71,6 +64,17 @@
         </div>
       </div>
     </div>
+    <div v-if="afficheContrat === true && fillInPK === true && hashTransaction !== null" class="container">
+      <button type="button"  v-on:click="fillInPK = false; hashTransaction = null" class="close-button">X</button>
+      <div class="panel pricing-table">
+        <div class="pricing-plan">
+            <label for="cle" class="pricing-header">🎉 Signature réussie ! 🎉</label>
+            <div class="pricing-features">
+              <p class="pricing-features-item">Numéro de transaction : {{hashTransaction}}</p>
+            </div>
+        </div>
+      </div>
+    </div>
   </main>
   <foot></foot>
 </body>
@@ -79,18 +83,38 @@
 <script>
 import Nav from '../components/nav/nav'
 import Foot from '../components/footer/foot.vue'
+import VueCookies from 'vue-cookies'
 export default {
   name: 'Validate',
   data () {
     return {
+      Contracts: [],
       id_contrat: '',
       passwordFieldType: 'password',
       show: 'montrer',
       storage: [],
       afficheContrat: false,
       fillInPK: false,
-      hashTransaction: ''
+      hashTransaction: null
     }
+  },
+  mounted () {
+    const publicKey = VueCookies.get('key')
+    fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        role: 'ressource',
+        pubKey: publicKey
+      }),
+      redirect: 'follow'
+    })
+      .then((res) => res.json())
+      .then(({ storage }) => {
+        this.Contracts = storage.map(contrat => contrat.id)
+      })
   },
   components: {
     navbar: Nav,
@@ -139,7 +163,6 @@ export default {
         .then(({ resultID }) => {
           this.hashTransaction = resultID
         })
-        .then(this.fillInPK = false)
         .catch(error => { this.hashTransaction = error })
     }
   }
