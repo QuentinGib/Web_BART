@@ -6,12 +6,11 @@
         </header>
         <div class="main-nav" id="mainnav">
           <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>
-          <router-link class="main-tab" :to="{ name: 'AskContract' }">✉️ Demander un contract
+          <router-link class="main-tab" :to="{ name: 'AskContract' }">✉️ Demander un contrat
               </router-link
           >
-          <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider un contract
-              </router-link
-          >
+          <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider un contrat</router-link>
+          <router-link class="main-tab" :to="{ name: 'Validation' }">📊 Valider l'activité</router-link>
         </div>
     </div>
 </div>

@@ -1,3 +1,4 @@
+<!--Copie/colle tous-->
 <template>
 <!DOCTYPE html>
 <html lang="en">
@@ -11,10 +12,15 @@
   <main>
     <div class="ModifHeader">
       <h1>Modifier Contract</h1>
-      <h3 id="Contrat">{{ $route.params.slug}}</h3>
+      <div class="form-group">
+        <div ><label for="">Numéro du contract</label></div>
+        <div class="RAS"><select name="Contract" id="Contract" v-model="contrat">
+          <option value="C1">--Contrat--</option>
+  <option v-bind:key="index" v-for="(Contrat,index) in Contrats">{{Contrat}}</option>
+  </select></div>
+      </div>
       </div>
       <br>
-    <div>
       <table class="TabModif">
         <thead>
           <th colspan="2">LES INFORMATIONS DU CONTRAT</th>
@@ -24,46 +30,26 @@
           <tr>
             <td>MISSION</td>
             <td>{{mission}}</td>
-            <td>!</td>
-            <td>!</td>
+            <td>! ! !</td>
+            <td>! ! !</td>
           </tr>
           <tr>
              <td>id_Client</td>
             <td>{{id_Client}}</td>
-            <td>!</td>
-            <td>!</td>
+            <td>! ! !</td>
+            <td>! ! !</td>
           </tr>
           <tr>
-            <td rowspan="3">Début du Contrat</td>
-            <td>Jour : {{s_day}}</td>
-            <td><input  type="number" v-model="modif_s_day" class="form-control" placeholder="DD"  maxlength="2" max="31" min="1"></td>
-            <td><button type="button" v-on:click="Modifier_sd">Modifier</button></td>
+            <td>Début du Contrat</td>
+            <td>{{Debut['time']}}</td>
+            <td><date :date="Modif_Debut"></date></td>
+            <td><button type="button" v-on:click="Modifier_Debut">Modifier</button></td>
           </tr>
           <tr>
-          <td>Mois : {{s_mouth}}</td>
-          <td><input  type="number" v-model="modif_s_mouth" class="form-control" placeholder="MM"  maxlength="2" max="12" min="1"></td>
-          <td><button type="button"  v-on:click="Modifier_sm">Modifier</button></td>
-          </tr>
-          <tr>
-            <td>Année : {{s_year}}</td>
-            <input   type="number" v-model="modif_s_year" class="form-control" placeholder="YYYY" maxlength="4" max="2050" min="2021">
-            <td><button type="button"  v-on:click="Modifier_sy">Modifier</button></td>
-          </tr>
-          <tr>
-            <td rowspan="3">Fin du Contrat</td>
-            <td>Jour : {{e_day}}</td>
-            <td><input  type="number" v-model="modif_e_day" class="form-control" placeholder="DD" maxlength="2" max="31" min="1"></td>
-            <td><button type="button"  v-on:click="Modifier_ed">Modifier</button></td>
-          </tr>
-          <tr>
-          <td>Mois : {{e_mouth}}</td>
-          <td><input  type="number" v-model="modif_e_mouth" class="form-control" placeholder="MM" maxlength="2" max="12" min="1"></td>
-          <td><button type="button"  v-on:click="Modifier_em">Modifier</button></td>
-          </tr>
-          <tr>
-            <td>Année : {{e_year}}</td>
-            <input  type="number" v-model="modif_e_year" class="form-control" placeholder="YYYY" maxlength="4" max="2050" min="2021">
-            <td><button type="button"  v-on:click="Modifier_ey">Modifier</button></td>
+            <td>Fin du Contrat</td>
+            <td>{{Fin['time']}}</td>
+            <td><date :date="Modif_Fin"></date></td>
+            <td><button type="button"  v-on:click="Modifier_Fin">Modifier</button></td>
           </tr>
           <tr>
             <td>Nombre de Jours (j)</td>
@@ -85,7 +71,7 @@
           </tr>
         </tbody>
       </table>
-    </div>
+      <h1>{{contrat}}+{{modif_TJM}}+{{Modif_Debut}}+{{Debut}}</h1>
   </main>
   <foot></foot>
 </body>
@@ -94,63 +80,37 @@
 <script>
 import Nav from '../../components/nav/nav'
 import Foot from '../../components/footer/foot.vue'
+import Datepicker from '../../components/Datepicker.vue'
 export default {
   name: 'Modifier',
   data () {
     return {
-      Contrat: '',
+      contrat: '',
+      Contrats: ['C1', 'C2', 'C3'],
       mission: 'Faire du HTML',
       id_Client: 'I192J',
-      s_day: '1',
-      s_mouth: '1',
-      s_year: '2020',
-      e_day: '4',
-      e_mouth: '5',
-      e_year: '2034',
+      Debut: { time: '2012-06-09' },
+      Fin: { time: '2013-06-09' },
       Jours: '31.5',
       TJM: '12',
       Intervenant: 'I31J3I1',
       Liste_Intervenant: ['I31J3I1', '1', 'YG2IG2', 'UJ324I'],
-      modif_s_day: '',
-      modif_s_mouth: '',
-      modif_s_year: '',
-      modif_e_day: '',
-      modif_e_mouth: '',
-      modif_e_year: '',
+      Modif_Debut: {},
+      Modif_Fin: {},
       modif_jours: '',
       modif_TJM: '',
       modif_Intervenant: ''
     }
   },
   methods: {
-    Modifier_sd: function () {
-      if (this.modif_s_day < 32 && this.modif_s_day > 0) {
-        this.s_day = this.modif_s_day
+    Modifier_Debut: function () {
+      if (Date.parse(this.Debut.time) < Date.parse(this.Modif_Debut.time)) {
+        this.Debut = this.Modif_Debut
       }
     },
-    Modifier_sm: function () {
-      if (this.modif_s_mouth < 13 && this.modif_s_mouth > 0) {
-        this.s_mouth = this.modif_s_mouth
-      }
-    },
-    Modifier_sy: function () {
-      if (this.modif_s_year > 2020) {
-        this.s_year = this.modif_s_year
-      }
-    },
-    Modifier_ed: function () {
-      if (this.modif_e_day < 32 && this.modif_e_day > 0) {
-        this.e_day = this.modif_e_day
-      }
-    },
-    Modifier_em: function () {
-      if (this.modif_e_mouth < 13 && this.modif_e_mouth > 0) {
-        this.e_mouth = this.modif_e_mouth
-      }
-    },
-    Modifier_ey: function () {
-      if (this.modif_e_year >= this.s_year) {
-        this.e_year = this.modif_e_year
+    Modifier_Fin: function () {
+      if (this.Fin.time < this.Modif_Fin.time) {
+        this.Fin = this.Modif_Fin
       }
     },
     Modifier_j: function () {
@@ -164,17 +124,20 @@ export default {
       }
     },
     Modifier_i: function () {
-      if (this.Liste_Intervenant.includes(this.Intervenant)) {
+      if (this.Liste_Intervenant.includes(this.modif_Intervenant)) {
         this.Intervenant = this.modif_Intervenant
       }
     }
   },
   mounted () {
-    this.Contrat = document.getElementById('Contrat').textContent
+    /* Fonction SQL qui récupère la liste des contrats et mettre dans Contracts
+    Pour chaque selection de contrat, mettre ses informations
+    envoyer les modifient dans la bdd */
   },
   components: {
     navbar: Nav,
-    foot: Foot
+    foot: Foot,
+    date: Datepicker
   }
 }
 </script>

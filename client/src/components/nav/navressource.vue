@@ -9,7 +9,7 @@
           <router-link class="main-tab" :to="{ name: 'Activite' }">📊 Rapport d'activité
               </router-link
           >
-          <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider son contract
+          <router-link class="main-tab" :to="{ name: 'Validate' }">📝 Valider son contrat
               </router-link
           >
         </div>

@@ -61,7 +61,7 @@ export default {
 }
 
 .logo-img {
-  max-width: 30%;
+  max-width: 8em;
 }
 
 .main-nav {

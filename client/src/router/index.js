@@ -10,6 +10,7 @@ import GestionRh from '../views/Entreprise/GestionRh.vue'
 import Modifier from '../views/Entreprise/ModifierContract.vue'
 import Contract from '../views/Entreprise/PageContract.vue'
 import Spinner from '../components/spinner.vue'
+import Validation from '../views/ValidateActivite.vue'
 const routes = [
   {
     path: '/',
@@ -60,7 +61,7 @@ const routes = [
     component: GestionRh
   },
   {
-    path: '/ModifierContract/:slug',
+    path: '/ModifierContract',
     name: 'Modifier',
     component: Modifier
   },
@@ -73,6 +74,11 @@ const routes = [
     path: '/PageContract/:slug',
     name: 'PageContract',
     component: Contract
+  },
+  {
+    path: '/ValidateActivite',
+    name: 'Validation',
+    component: Validation
   }
 ]
 

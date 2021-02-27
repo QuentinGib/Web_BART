@@ -10,20 +10,6 @@
   <navbar></navbar>
   <main>
     <h1 id="theme">Bienvenue dans votre espace client</h1>
-    <br>
-    <div class="Encours">
-      <h3>Contrat en cours</h3>
-      <select name="Contract" id="Contract" v-model="Contrat.slug">
-        <option value="">--Contrat--</option>
-        <option v-bind:key="index" v-for="(Contract,index) in Contracts">
-          {{Contract}}
-        </option>
-      </select>
-      <router-link class='VoirContrat' :to="{name: 'PageContract', params: { slug: Contrat.slug }}">
-        Voir le Contrat {{Contrat.slug}}
-      </router-link>
-    </div>
-    <br>
     <div>
       <table class="Thistorique">
         <tr>

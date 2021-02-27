@@ -6,12 +6,9 @@
         </header>
         <div class="main-nav" id="mainnav">
           <router-link class="main-tab" :to="{ name: 'Home' }">🏠 Home</router-link>
-          <router-link class="main-tab" :to="{ name: 'Proposer' }">📝 Nouveau contract
-              </router-link
-          >
-          <router-link class="main-tab" :to="{ name: 'GestionRh' }">👓 Collaborateurs
-              </router-link
-          >
+          <router-link class="main-tab" :to="{ name: 'Proposer' }">📝 Nouveau contrat</router-link>
+          <router-link class="main-tab" :to="{ name: 'Modifier' }">⚙️ Modifier contrat</router-link>
+          <router-link class="main-tab" :to="{ name: 'GestionRh' }">👓 Collaborateurs</router-link>
         </div>
     </div>
 </div>

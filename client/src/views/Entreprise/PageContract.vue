@@ -26,10 +26,6 @@
   <div v-if="fonction === 0" class="PageBas">
     <h2>Envoyer la facture</h2>
     <p class="facture">Envoyez la facture {{Contrat.slug}}</p>
-    <h2>Modifier contrat</h2>
-      <router-link class="Modifier" :to="{name: 'Modifier', params: { slug: Contrat.slug }}">
-         Modifier le Contrat {{Contrat.slug}}
-        </router-link>
   </div>
   <foot></foot>
 </body>
@@ -105,19 +101,5 @@ export default {
 
 .facture:hover {
   background-color: rgb(74, 168, 74);
-}
-.Modifier{
-  background-color: orange;
-  display: flex;
-  justify-content: center;
-  width: 50%;
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
-  font-size: 200%;
-}
-
-.Modifier:hover {
-  background-color: orangered;
 }
 </style>
