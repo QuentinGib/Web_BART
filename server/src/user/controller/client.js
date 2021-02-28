@@ -43,3 +43,15 @@ exports.login = (req, res, next) => {
                
 
 };
+
+exports.fetchname  = (req, res, next) => {
+    sql= 'SELECT prenom,nom FROM user WHERE pub_key = ?'
+    const insert = req.body.pub_key
+    sql = mysql.format(sql,insert);
+    pool.query(sql,function(error,results,fields){
+        if(error) throw error
+        const user = results
+        if(!user){ return res.status(401).json({error : "bad search"})};
+        res.status(200).json({user: user[0]})
+        })
+};
