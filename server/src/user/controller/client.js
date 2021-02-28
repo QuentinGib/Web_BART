@@ -55,3 +55,15 @@ exports.fetchname  = (req, res, next) => {
         res.status(200).json({user: user[0]})
         })
 };
+
+exports.fetchkey  = (req, res, next) => {
+    sql= 'SELECT pubkey FROM user WHERE nom = ? AND prenom = ?'
+    const insert = [req.body.nom,req.body.prenom]
+    sql = mysql.format(sql,insert);
+    pool.query(sql,function(error,results,fields){
+        if(error) throw error
+        const user = results
+        if(!user){ return res.status(401).json({error : "bad search"})};
+        res.status(200).json({user: user[0]})
+        })
+};

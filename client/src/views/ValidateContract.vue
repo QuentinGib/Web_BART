@@ -99,6 +99,7 @@ export default {
     }
   },
   mounted () {
+    const role = VueCookies.get('role')
     const publicKey = VueCookies.get('key')
     fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
       method: 'POST',
@@ -106,7 +107,7 @@ export default {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        role: 'ressource',
+        role: role,
         pubKey: publicKey
       }),
       redirect: 'follow'

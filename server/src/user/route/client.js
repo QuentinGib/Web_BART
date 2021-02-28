@@ -5,5 +5,6 @@ const client = require('../controller/client')
 routeur.post("/register", client.register);
 routeur.post("/login", client.login);
 routeur.post("/fetch",client.fetchname);
+routeur.post("/fetchkey",client.fetchkey);
 
 module.exports = routeur;

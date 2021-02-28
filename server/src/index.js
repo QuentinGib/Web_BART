@@ -20,9 +20,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 const clientRoutes = require('./user/route/client.js')
 app.use("/client", clientRoutes);
-const collabroutes = require('./api/user/route/collab')
+const collabroutes = require('./user/route/collab')
 app.use("/collab",collabroutes)
-const contratroutes = require('./api/user/route/contrat')
+const contratroutes = require('./user/route/contrat')
 app.use("/contrat",contratroutes)
 // end region BDD
 

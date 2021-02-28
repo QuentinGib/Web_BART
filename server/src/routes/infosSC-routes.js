@@ -36,7 +36,8 @@ router.post('/', function getRoot(req, res) {
             storage: {
                 TJM: findRightValue(storage.children[0].children, body.id),
                 ressource: findRightValue(storage.children[6].children, body.id),
-                time: findRightValue(storage.children[7].children, body.id)
+                time: findRightValue(storage.children[7].children, body.id),
+                client: findRightValue(storage.children[2].children, body.id)
             }
         })
     })
