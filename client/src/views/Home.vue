@@ -45,7 +45,6 @@ export default {
   data () {
     return {
       Contrat: {},
-      Contracts: ['C1', 'C2', 'C3', 'C4'],
       TC: [],
       TE: [],
       TH: [],
