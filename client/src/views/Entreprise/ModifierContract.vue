@@ -128,7 +128,8 @@ export default {
       show: 'montrer',
       fillInPK: false,
       hashTransaction: null,
-      afficheContrat: false
+      afficheContrat: false,
+      found: ''
     }
   },
   methods: {
@@ -150,8 +151,8 @@ export default {
           this.Jours = storage.time
           this.TJM = storage.TJM
           this.pkClient = storage.client
-          this.Intervenant = this.fromPubKeyToName(storage.ressource)
-          this.Client = this.fromPubKeyToName(storage.client)
+          this.fromPubKeyToName(storage.ressource, 'ressource')
+          this.fromPubKeyToName(storage.client, 'client')
         })
         .then(this.afficheContrat = true)
         .catch(error => { this.error = error })
@@ -210,9 +211,9 @@ export default {
     Show () {
       this.show = this.show === 'montrer' ? 'cacher' : 'montrer'
     },
-    fromPubKeyToName (pk) {
+    fromPubKeyToName (pk, role) {
       const pubkey = pk
-      fetch('http://localhost:3000/client/fetch', {
+      fetch('http://localhost:3000/client/fetchname', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -226,7 +227,11 @@ export default {
           if (res.status === 200) {
             res.json()
               .then(res => {
-                return res.nom
+                if (role === 'client') {
+                  this.Client = res.user.nom
+                } else {
+                  this.Intervenant = res.user.nom
+                }
               })
           }
         })

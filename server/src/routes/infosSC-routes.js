@@ -74,7 +74,7 @@ function findMyContracts (complete_storage, role, pubKey) {
     for(var contratID of id_of_contracts_held) {
         entreprise = undefined
         if(role === 'client') {
-            entreprise = 'OnePoint'
+            entreprise = findRightValue(complete_storage.children[4].children, contratID)
         } else if(role === 'ressource') {
             entreprise = findRightValue(complete_storage.children[4].children, contratID) //entreprise employante
         } else if(role === 'entreprise') {

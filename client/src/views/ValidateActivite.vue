@@ -12,7 +12,7 @@
     <h1 id="theme">Valider l'activité d'une ressource</h1>
     <h2>
       Selectionnez l'ID du contrat pour lequel vous voulez valider la bonne
-      réception et la véracité des informations à propos du rapport d'activité
+      réception et la véracité des informations du rapport d'activité
       final de la ressource concernée (attention : cette action est irréversible).
     </h2>
     <form class="form-infoSCvalidate" @submit.prevent="ValiderActivite">

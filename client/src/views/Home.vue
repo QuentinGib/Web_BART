@@ -69,10 +69,36 @@ export default {
       .then((res) => res.json())
       .then(({ storage }) => {
         this.TC = storage.map(contrat => contrat.id)
-        this.TE = storage.map(contrat => contrat.entreprise)
+        this.fromPubKeyToName(storage.map(contrat => contrat.entreprise))
         this.TH = storage.map(contrat => contrat.time)
         this.TP = storage.map(contrat => (parseInt(contrat.time, 10) * parseInt(contrat.TJM, 10)).toString())
       })
+  },
+  methods: {
+    fromPubKeyToName (pk) {
+      const pubkey = pk
+      for (var elmnt of pubkey) {
+        fetch('http://localhost:3000/client/fetchname', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            pub_key: elmnt
+          })
+        })
+          .then(res => {
+            if (res.status === 401) { alert('Invalid credential') }
+            if (res.status === 200) {
+              res.json()
+                .then(res => {
+                  this.TE.push(res.user.nom)
+                })
+            }
+          })
+          .catch(error => { this.error = error })
+      }
+    }
   },
   components: {
     foot: Foot,
