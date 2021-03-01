@@ -36,7 +36,7 @@
         </tr>
         <tr>
           <td>Client :</td>
-          <td style="color:#00638a">{{id_Client}}</td>
+          <td style="color:#00638a">{{Client}}</td>
         </tr>
         <tr>
           <td>Début du contrat :</td>
@@ -78,7 +78,7 @@
               <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="Entrez votre clé privée ici" required>
               <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
             </div>
-            <button type="button"  v-on:click="signer()" class="pricing-button">🔏 Valider et envoyer</button>
+            <button type="button"  v-on:click="createContract()" class="pricing-button">🔏 Valider et envoyer</button>
             <h3>Attention : ne jamais divulguer sa clé privée !</h3>
         </div>
       </div>
@@ -111,12 +111,14 @@ export default {
       id_Contract: '',
       Contracts: [],
       mission: 'Faire du HTML',
-      id_Client: '',
+      Client: '',
+      pkClient: '',
       Debut: { time: '2012-06-09' },
       Fin: { time: '2013-06-09' },
       Jours: '',
       TJM: '',
       Intervenant: '',
+      pkIntervenant: '',
       Liste_Intervenant: ['I31J3I1', '1', 'YG2IG2', 'UJ324I'],
       Modif_Fin: {},
       modif_jours: '',
@@ -125,7 +127,7 @@ export default {
       passwordFieldType: 'password',
       show: 'montrer',
       fillInPK: false,
-      hashTransaction: '',
+      hashTransaction: null,
       afficheContrat: false
     }
   },
@@ -144,10 +146,12 @@ export default {
       })
         .then((res) => res.json())
         .then(({ storage }) => {
-          this.Intervenant = storage.map(contrat => contrat.ressource)
-          this.Jours = storage.map(contrat => contrat.time)
-          this.TJM = storage.map(contrat => contrat.TJM)
-          this.id_Client = storage.map(contrat => contrat.client)
+          this.pkIntervenant = storage.ressource
+          this.Jours = storage.time
+          this.TJM = storage.TJM
+          this.pkClient = storage.client
+          this.Intervenant = this.fromPubKeyToName(storage.ressource)
+          this.Client = this.fromPubKeyToName(storage.client)
         })
         .then(this.afficheContrat = true)
         .catch(error => { this.error = error })
@@ -177,8 +181,6 @@ export default {
     },
     createContract () {
       // Retrouver les public key du client et ressource
-      const pubKeyClient = 'pubKeyClient'
-      const pubKeyRessource = 'pubKeyRessource'
       const clePrv = document.getElementById('pose_prv').value
       // Blockchain
       fetch('http://localhost:3000/api/v1/accessSC/setAll', {
@@ -188,9 +190,9 @@ export default {
         },
         body: JSON.stringify({
           TJM: this.TJM.toString(),
-          client: pubKeyClient,
+          client: this.pkClient,
           id: this.id_Contract,
-          ressource: pubKeyRessource,
+          ressource: this.pkIntervenant,
           time: this.Jours.toString(),
           privateKey: clePrv
         }),
@@ -207,6 +209,28 @@ export default {
     },
     Show () {
       this.show = this.show === 'montrer' ? 'cacher' : 'montrer'
+    },
+    fromPubKeyToName (pk) {
+      const pubkey = pk
+      fetch('http://localhost:3000/client/fetch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pub_key: pubkey
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { alert('Invalid credential') }
+          if (res.status === 200) {
+            res.json()
+              .then(res => {
+                return res.nom
+              })
+          }
+        })
+        .catch(error => { this.error = error })
     }
   },
   mounted () {

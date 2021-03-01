@@ -24,20 +24,16 @@
                 <input v-model="id_Client"  type="text" id="id_Client" class="form-control" placeholder="ex: Google-12" required>
             </div>
             <div class="form-group">
-                <label for="">Début de la mission</label>
-                <div class="inline">
-                <input v-model="s_day"  type="number" id="s_day" class="form-control" placeholder="DD" required maxlength="2" max="31" min="1">
-                <input v-model="s_mouth"  type="number" id="s_mouth" class="form-control" placeholder="MM" required maxlength="2" max="12" min="1">
-                <input v-model="s_year"  type="number" id="s_year" class="form-control" placeholder="YYYY" required maxlength="4" max="2050" min="2021">
-                </div>
+              <label for="">Début de la mission</label>
+              <div class="inline">
+                <date :date="Debut"></date>
+              </div>
             </div>
-             <div class="form-group">
-                <label for="">Fin de la mission</label>
-                <div class="inline">
-                <input v-model="e_day"  type="number" id="e_day" class="form-control" placeholder="DD" required maxlength="2" max="31" min="1">
-                <input v-model="e_mouth"  type="number" id="e_mouth" class="form-control" placeholder="MM" required maxlength="2" max="12" min="1">
-                <input v-model="e_year"  type="number" id="e_year" class="form-control" placeholder="YYYY" required maxlength="4" max="2050" min="2021">
-                </div>
+            <div class="form-group">
+              <label for="">Fin de la mission</label>
+              <div class="inline">
+                <date :date="Fin"></date>
+              </div>
             </div>
             <div class="form-group">
                 <label for="">Nombre de jours </label>
@@ -88,6 +84,7 @@
 <script>
 import Nav from '../../components/nav/nav'
 import Foot from '../../components/footer/foot.vue'
+import Datepicker from '../../components/Datepicker.vue'
 export default {
   name: 'Proposer',
   data () {
@@ -95,12 +92,8 @@ export default {
       id_Contract: '',
       mission: '',
       id_Client: '',
-      s_day: '',
-      s_mouth: '',
-      s_year: '',
-      e_day: '',
-      e_mouth: '',
-      e_year: '',
+      Debut: {},
+      Fin: {},
       jours: '',
       TJM: '',
       Intervenant: '',
@@ -150,7 +143,8 @@ export default {
   },
   components: {
     navbar: Nav,
-    foot: Foot
+    foot: Foot,
+    date: Datepicker
   }
 }
 </script>
