@@ -38,7 +38,8 @@
               </li>
             </ul>
             <p class="pricing-price">Montant total : {{storage.time*storage.TJM}}.00 €</p>
-            <button type="button" v-on:click="fillInPK = true" class="pricing-button">✒️ Signer le contrat</button>
+            <p v-if="signed" class="pricing-button">✔️ Document signé ✔️</p>
+            <button v-else type="button" v-on:click="fillInPK = true" class="pricing-button">✒️ Signer le contrat</button>
           </div>
         </div>
       </div>
@@ -89,7 +90,8 @@ export default {
       fillInPK: false,
       hashTransaction: null,
       client_nom: '',
-      ressource_nom: ''
+      ressource_nom: '',
+      signed: false
     }
   },
   mounted () {
@@ -118,6 +120,7 @@ export default {
   methods: {
     VoirContrat () {
       const id = this.id_contrat
+      const role = VueCookies.get('role')
       fetch('http://localhost:3000/api/v1/infosSC/', {
         method: 'POST',
         headers: {
@@ -135,6 +138,23 @@ export default {
           this.fromPubKeyToName(storage.ressource, 'ressource')
         })
         .then(this.afficheContrat = true)
+        .catch(error => { this.error = error })
+
+      fetch('http://localhost:3000/api/v1/infosSC/signature', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id,
+          role
+        }),
+        redirect: 'follow'
+      })
+        .then((res) => res.json())
+        .then(({ signature }) => {
+          this.signed = signature
+        })
         .catch(error => { this.error = error })
     },
     fromPubKeyToName (pk, role) {
@@ -185,6 +205,7 @@ export default {
         .then((res) => res.json())
         .then(({ resultID }) => {
           this.hashTransaction = resultID
+          this.signed = true
         })
         .catch(error => { this.hashTransaction = error })
     }

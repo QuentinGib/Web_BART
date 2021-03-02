@@ -5,13 +5,13 @@
     <h1 id="theme">Demander un contrat</h1>
     <form class="form-asksc" @submit.prevent="sendEmail">
       <div class="form-group">
-        <label for="">Nom de l'Entreprise</label>
+        <label for="">Nom de l'entreprise</label>
         <input
           v-model="NomEntreprise"
           type="text"
           id="id"
           class="form-control"
-          placeholder="Nom Entreprise"
+          placeholder="Insérez le nom de votre entreprise (correspondant à ce compte)"
           required
         >
       </div>
@@ -34,13 +34,14 @@
           v-model="Description"
           id="Description"
           class="form-control-description"
-          placeholder="Description"
+          placeholder="Decrivez votre demande ici"
           required
         >
         </textarea>
       </div>
       <div>
         <button type="submit" class="btn">Envoyer</button>
+        <p v-if="envoye">📨 Demande envoyé avec succès !</p>
       </div>
       <spin v-if="chargement"></spin>
     </form>
@@ -68,7 +69,8 @@ export default {
       Debut: {},
       Fin: {},
       Description: '',
-      chargement: false
+      chargement: false,
+      envoye: false
     }
   },
   methods: {
@@ -87,6 +89,7 @@ export default {
           fin: Fin
         })
         this.chargement = false
+        this.envoye = true
       } catch (error) {
         console.log({ error })
       }

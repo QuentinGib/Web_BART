@@ -119,4 +119,39 @@ router.post('/mycontracts', function getRoot(req, res) {
     })
 })
 
+function isSigned (complete_storage, id, role) {
+    if (role == 'client') {
+        return findRightValue(complete_storage.children[10].children, id) 
+    } else {
+        // cas signature ressource => pas encore sur le sc
+        return false
+    }
+}
+
+router.post('/signature', function getRoot(req, res) {
+
+    const path = '/contract/delphinet/' + addressSC + '/storage'
+
+    const body = req.body
+
+    var requestOptions = {
+        method: 'GET',
+        redirect: 'follow'
+      };
+      
+    fetch(`${apiBaseUrl}${path}`, requestOptions)
+    .then(response => response.json())
+    .then(storage => {
+        res.json({
+            success: true,
+            signature: isSigned(storage, body.id, body.role)
+        })
+    })
+    .catch(error => {
+        res.json({
+            success: false,
+            message: error.message
+        })
+    })
+})
 module.exports = router

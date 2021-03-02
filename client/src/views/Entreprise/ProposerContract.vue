@@ -102,7 +102,7 @@ export default {
       this.fillInPK = true
       // Retrouver les public key du client et ressource
       this.fromNameToPubKey(this.id_Client, 'client')
-      this.fromNameToPubKey(this.pk_ressource, 'ressource')
+      this.fromNameToPubKey(this.Intervenant, 'ressource')
     },
     fromNameToPubKey (nom, role) {
       const name = nom
@@ -189,7 +189,7 @@ export default {
     border-bottom: 1px solid rgb(102, 102, 102);
     color: rgb(1, 64, 88);
     font-size: 14px;
-    text-transform: uppercase;
+    text-transform: none;
     outline: none;
     transition: border-color 0.2s;
     margin: 0px 10px;
