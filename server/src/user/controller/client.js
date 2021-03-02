@@ -58,7 +58,7 @@ exports.fetchname  = (req, res, next) => {
 
 exports.fetchkey  = (req, res, next) => {
     sql= 'SELECT pub_key FROM user WHERE nom = ?'
-    const insert = [req.body.nom]
+    const insert = req.body.nom
     sql = mysql.format(sql,insert);
     pool.query(sql,function(error,results,fields){
         if(error) throw error

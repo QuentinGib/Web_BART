@@ -22,11 +22,11 @@
           <div class="pricing-plan">
             <img src="./../../public/img/onepoint-logo-black.png" alt="" class="pricing-img">
             <h2 class="pricing-header">Titre de la mission</h2>
-            <h3>Pour le client xxxxxxxx du XX/XX/XXXX au XX/XX/XXXX</h3>
+            <h3>Pour le client {{client_nom}} du XX/XX/XXXX au XX/XX/XXXX</h3>
             <ul class="pricing-features">
               <li class="pricing-features-item">
                 Informations intervenant :<br>
-                Nom : xxxxx      Prénom : xxxxxxxx<br>
+                Nom : {{ressource_nom.split(' ')[1]}} &emsp; Prénom : {{ressource_nom.split(' ')[0]}}<br>
                 TJM : {{storage.TJM}}<br>
                 Estimation temps de réalisation : {{storage.time}} jours
               </li>
@@ -87,7 +87,9 @@ export default {
       storage: [],
       afficheContrat: false,
       fillInPK: false,
-      hashTransaction: null
+      hashTransaction: null,
+      client_nom: '',
+      ressource_nom: ''
     }
   },
   mounted () {
@@ -129,8 +131,36 @@ export default {
         .then((res) => res.json())
         .then(({ storage }) => {
           this.storage = storage
+          this.fromPubKeyToName(storage.client, 'client')
+          this.fromPubKeyToName(storage.ressource, 'ressource')
         })
         .then(this.afficheContrat = true)
+        .catch(error => { this.error = error })
+    },
+    fromPubKeyToName (pk, role) {
+      const pubkey = pk
+      fetch('http://localhost:3000/client/fetchname', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pub_key: pubkey
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { alert('Invalid credential') }
+          if (res.status === 200) {
+            res.json()
+              .then(res => {
+                if (role === 'client') {
+                  this.client_nom = res.user.nom
+                } else {
+                  this.ressource_nom = res.user.nom
+                }
+              })
+          }
+        })
         .catch(error => { this.error = error })
     },
     Visibilite () {

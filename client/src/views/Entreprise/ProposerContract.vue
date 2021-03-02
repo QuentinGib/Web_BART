@@ -84,25 +84,53 @@ export default {
       id_Contract: '',
       mission: '',
       id_Client: '',
+      pk_client: '',
       Debut: {},
       Fin: {},
       jours: '',
       TJM: '',
       Intervenant: '',
+      pk_ressource: '',
       passwordFieldType: 'password',
       show: 'montrer',
       fillInPK: false,
-      hashTransaction: ''
+      hashTransaction: null
     }
   },
   methods: {
     sendContract () {
       this.fillInPK = true
+      // Retrouver les public key du client et ressource
+      this.fromNameToPubKey(this.id_Client, 'client')
+      this.fromNameToPubKey(this.pk_ressource, 'ressource')
+    },
+    fromNameToPubKey (nom, role) {
+      const name = nom
+      fetch('http://localhost:3000/client/fetchkey', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          nom: name
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { alert('Invalid credential') }
+          if (res.status === 200) {
+            res.json()
+              .then(res => {
+                if (role === 'client') {
+                  this.pk_client = res.user.pub_key
+                } else {
+                  this.pk_ressource = res.user.pub_key
+                }
+              })
+          }
+        })
+        .catch(error => { this.error = error })
     },
     createContract () {
-      // Retrouver les public key du client et ressource
-      const pubKeyClient = 'pubKeyClient'
-      const pubKeyRessource = 'pubKeyRessource'
       const clePrv = document.getElementById('pose_prv').value
       // Blockchain
       fetch('http://localhost:3000/api/v1/accessSC/setAll', {
@@ -112,9 +140,9 @@ export default {
         },
         body: JSON.stringify({
           TJM: this.TJM.toString(),
-          client: pubKeyClient,
+          client: this.pk_client,
           id: this.id_Contract,
-          ressource: pubKeyRessource,
+          ressource: this.pk_ressource,
           time: this.jours.toString(),
           privateKey: clePrv
         }),
