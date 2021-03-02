@@ -1,46 +1,38 @@
 <template>
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="UTF-8" />
-      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      <title>Authentification</title>
-    </head>
-    <body>
-      <main>
-        <h1 id="theme">B.A.R.T.</h1>
-        <div class="login-box">
-          <h2>Login</h2>
-          <form @submit.prevent="Login">
-            <div class="user-box">
-              <input
-                type="text"
-                name=""
-                required=""
-                id="email"
-                v-model="email"
-                autocomplete="off"
-              />
-              <label for="email">Mail</label>
-            </div>
-            <div class="user-box">
-              <input
-                name=""
-                id="pwd"
-                v-model="pwd"
-                type="password"
-                required=""
-                autocomplete="off"
-              />
-              <label>Password</label>
-            </div>
-            <button type="submit" class="subbutton">Se connecter</button>
-          </form>
+<body>
+  <main>
+    <h1 id="theme">B.A.R.T.</h1>
+    <div class="login-box">
+      <h2>Login</h2>
+      <form @submit.prevent="Login">
+        <div class="user-box">
+          <input
+            type="text"
+            name=""
+            required=""
+            id="email"
+            v-model="email"
+            autocomplete="off"
+          />
+          <label for="email">Mail</label>
         </div>
-        <p class="mdpOublie">En cas de perte de votre mot de passe, contactez l'adresse: #email-automatique</p>
-      </main>
-    </body>
-  </html>
+        <div class="user-box">
+          <input
+            name=""
+            id="pwd"
+            v-model="pwd"
+            type="password"
+            required=""
+            autocomplete="off"
+          />
+          <label>Password</label>
+        </div>
+        <button type="submit" class="subbutton">Se connecter</button>
+      </form>
+    </div>
+    <p class="mdpOublie">En cas de perte de votre mot de passe, contactez l'adresse: #email-automatique</p>
+  </main>
+</body>
 </template>
 
 <script>
