@@ -196,6 +196,26 @@ export default {
           this.hashTransaction = resultID
         })
         .catch(error => { this.hashTransaction = error })
+
+      // BDD
+
+      fetch('http://localhost:3000/contrat/modify', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          idContrat: this.id_Contract,
+          datefin: this.Fin
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { alert('Invalid credential') }
+          if (res.status === 200) {
+            console.log('BDD success')
+          }
+        })
+        .catch(error => { this.error = error })
     },
     Visibilite () {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'

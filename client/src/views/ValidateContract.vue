@@ -21,8 +21,8 @@
         <div class="panel pricing-table">
           <div class="pricing-plan">
             <img src="./../../public/img/onepoint-logo-black.png" alt="" class="pricing-img">
-            <h2 class="pricing-header">Titre de la mission</h2>
-            <h3>Pour le client {{client_nom}} du XX/XX/XXXX au XX/XX/XXXX</h3>
+            <h2 class="pricing-header">{{mission}}</h2>
+            <h3>Pour le client {{client_nom}} du {{dateDebut}} au {{dateFin}}</h3>
             <ul class="pricing-features">
               <li class="pricing-features-item">
                 Informations intervenant :<br>
@@ -32,9 +32,7 @@
               </li>
               <li class="pricing-features-item">
                 Desrciption de la mission :<br>
-                ..............................................................<br>
-                ..............................................................<br>
-                ..............................................................
+                {{descriptif}}
               </li>
             </ul>
             <p class="pricing-price">Montant total : {{storage.time*storage.TJM}}.00 €</p>
@@ -83,6 +81,10 @@ export default {
     return {
       Contracts: [],
       id_contrat: '',
+      mission: '',
+      dateDebut: '',
+      dateFin: '',
+      descriptif: '',
       passwordFieldType: 'password',
       show: 'montrer',
       storage: [],
@@ -121,6 +123,8 @@ export default {
     VoirContrat () {
       const id = this.id_contrat
       const role = VueCookies.get('role')
+
+      // appel blockchain
       fetch('http://localhost:3000/api/v1/infosSC/', {
         method: 'POST',
         headers: {
@@ -138,6 +142,31 @@ export default {
           this.fromPubKeyToName(storage.ressource, 'ressource')
         })
         .then(this.afficheContrat = true)
+        .catch(error => { this.error = error })
+
+      // appel BDD
+      fetch('http://localhost:3000/contrat/fetch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          id
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { console.log('Invalid credential') }
+          if (res.status === 200) {
+            console.log('success')
+            res.json()
+              .then(res => {
+                this.mission = res.contrats[0].mission
+                this.dateDebut = res.contrats[0].datecommencement
+                this.dateFin = res.contrats[0].datefin
+                this.descriptif = res.contrats[0].descriptif
+              })
+          }
+        })
         .catch(error => { this.error = error })
 
       fetch('http://localhost:3000/api/v1/infosSC/signature', {

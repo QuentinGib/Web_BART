@@ -1,4 +1,3 @@
-<!--Copie/colle tous-->
 <template>
 <body>
   <navbar></navbar>

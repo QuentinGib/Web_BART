@@ -40,6 +40,10 @@
                 <label for="">Intervenant </label>
                 <input v-model="Intervenant"  type="text" id="Intervenant" class="form-control" placeholder="ex: Jacques Dupont" required>
             </div>
+            <div class="form-group">
+                <label for="">Descriptif de la mission </label>
+                <input v-model="descriptif"  type="text" id="descriptif" class="form-control" placeholder="Ecrivez ici" required>
+            </div>
             <div>
                 <button type="submit" class="btn">Créer et envoyer</button>
             </div>
@@ -53,7 +57,7 @@
                   <input :type="passwordFieldType" id="pose_prv" class="prv-control" placeholder="Entrez votre clé privée ici" required>
                   <p class="montrer" v-on:click="Visibilite(); Show()">{{show}}</p>
                 </div>
-                <button type="button"  v-on:click="createContract()" class="pricing-button">📨 Valider et envoyer</button>
+                <button type="button"  v-on:click="createContract(), createContractBDD()" class="pricing-button">📨 Valider et envoyer</button>
                 <h3>Attention : ne jamais divulguer sa clé privée !</h3>
             </div>
           </div>
@@ -91,6 +95,7 @@ export default {
       TJM: '',
       Intervenant: '',
       pk_ressource: '',
+      descriptif: '',
       passwordFieldType: 'password',
       show: 'montrer',
       fillInPK: false,
@@ -130,6 +135,7 @@ export default {
         })
         .catch(error => { this.error = error })
     },
+
     createContract () {
       const clePrv = document.getElementById('pose_prv').value
       // Blockchain
@@ -154,9 +160,38 @@ export default {
         })
         .catch(error => { this.hashTransaction = error })
     },
+
+    createContractBDD () {
+      const idContrat = this.id_Contrac
+      const mission = this.mission
+      const datecommencement = this.Debut.toString()
+      const datefin = this.Fin.toString()
+      const descriptif = this.descriptif
+      fetch('http://localhost:3000/contrat/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          idContrat,
+          mission,
+          datecommencement,
+          datefin,
+          descriptif
+        })
+      })
+        .then(res => {
+          if (res.status === 201) {
+            console.log('BDDsuccess')
+          }
+        })
+        .catch(error => { this.error = error })
+    },
+
     Visibilite () {
       this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password'
     },
+
     Show () {
       this.show = this.show === 'montrer' ? 'cacher' : 'montrer'
     }
