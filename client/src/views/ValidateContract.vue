@@ -22,7 +22,7 @@
           <div class="pricing-plan">
             <img src="./../../public/img/onepoint-logo-black.png" alt="" class="pricing-img">
             <h2 class="pricing-header">{{mission}}</h2>
-            <h3>Pour le client {{client_nom}} du {{dateDebut}} au {{dateFin}}</h3>
+            <h3>Pour le client {{client_nom}},&nbsp; du {{dateDebut}} au {{dateFin}}</h3>
             <ul class="pricing-features">
               <li class="pricing-features-item">
                 Informations intervenant :<br>
@@ -151,7 +151,7 @@ export default {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          id
+          idContrat: id
         })
       })
         .then(res => {

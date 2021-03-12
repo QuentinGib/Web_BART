@@ -162,10 +162,12 @@ export default {
     },
 
     createContractBDD () {
-      const idContrat = this.id_Contrac
+      // Creation sur la BDD
+      const idContrat = this.id_Contract
       const mission = this.mission
-      const datecommencement = this.Debut.toString()
-      const datefin = this.Fin.toString()
+      console.log(this.Debut.time)
+      const datecommencement = this.Debut.time
+      const datefin = this.Fin.time
       const descriptif = this.descriptif
       fetch('http://localhost:3000/contrat/register', {
         method: 'POST',

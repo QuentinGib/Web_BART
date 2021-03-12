@@ -12,7 +12,7 @@
           <td>Numéro de Contract</td>
           <td>Entreprise</td>
           <td>Nombre de jours</td>
-          <td>Début du Contract</td>
+          <td>Début du contrat</td>
           <td>Total</td>
         </tr>
         <tr v-bind:key="index" v-for="(H,index) in TC">
@@ -40,13 +40,14 @@ export default {
       TC: [],
       TE: [],
       TH: [],
-      TD: ['16-01-2003'],
+      TD: [],
       TP: []
     }
   },
   mounted () {
     const role = VueCookies.get('role')
     const publicKey = VueCookies.get('key')
+    // Blockchain
     fetch('http://localhost:3000/api/v1/infosSC/mycontracts', {
       method: 'POST',
       headers: {
@@ -64,9 +65,37 @@ export default {
         this.fromPubKeyToName(storage.map(contrat => contrat.entreprise))
         this.TH = storage.map(contrat => contrat.time)
         this.TP = storage.map(contrat => (parseInt(contrat.time, 10) * parseInt(contrat.TJM, 10)).toString())
+        this.fromIDtoDate(storage.map(contrat => contrat.id))
       })
   },
   methods: {
+    fromIDtoDate (ids) {
+      for (var elmnt of ids) {
+        fetch('http://localhost:3000/contrat/fetch', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            idContrat: elmnt
+          })
+        })
+          .then(res => {
+            if (res.status === 401) {
+              return
+            }
+            if (res.status === 200) {
+              console.log('success')
+              res.json()
+                .then(res => {
+                  this.TD.push(res.contrats[0].datefin)
+                })
+            }
+          })
+          .catch(error => { this.error = error })
+      }
+    },
+
     fromPubKeyToName (pk) {
       const pubkey = pk
       for (var elmnt of pubkey) {

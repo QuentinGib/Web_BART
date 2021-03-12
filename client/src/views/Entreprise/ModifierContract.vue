@@ -102,16 +102,16 @@ export default {
     return {
       id_Contract: '',
       Contracts: [],
-      mission: 'Faire du HTML',
+      mission: '',
       Client: '',
       pkClient: '',
-      Debut: { time: '2012-06-09' },
-      Fin: { time: '2013-06-09' },
+      Debut: { time: '' },
+      Fin: { time: '' },
       Jours: '',
       TJM: '',
       Intervenant: '',
       pkIntervenant: '',
-      Liste_Intervenant: ['I31J3I1', '1', 'YG2IG2', 'UJ324I'],
+      Liste_Intervenant: [],
       Modif_Fin: {},
       modif_jours: '',
       modif_TJM: '',
@@ -147,6 +147,30 @@ export default {
           this.fromPubKeyToName(storage.client, 'client')
         })
         .then(this.afficheContrat = true)
+        .catch(error => { this.error = error })
+
+      // appel BDD
+      fetch('http://localhost:3000/contrat/fetch', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          idContrat: id
+        })
+      })
+        .then(res => {
+          if (res.status === 401) { console.log('Invalid credential') }
+          if (res.status === 200) {
+            console.log('success')
+            res.json()
+              .then(res => {
+                this.mission = res.contrats[0].mission
+                this.Debut.time = res.contrats[0].datecommencement
+                this.Fin.time = res.contrats[0].datefin
+              })
+          }
+        })
         .catch(error => { this.error = error })
     },
     Modifier_Fin: function () {
@@ -206,7 +230,7 @@ export default {
         },
         body: JSON.stringify({
           idContrat: this.id_Contract,
-          datefin: this.Fin
+          datefin: this.Fin.time
         })
       })
         .then(res => {
