@@ -10,11 +10,12 @@ conseiljs.registerFetch(fetch);
 
 const express = require('express')
 
-const tezosNode = 'https://tezos-dev.cryptonomic-infra.tech:443';
-const contractAddress = 'KT1PqPiyWLXZQNyAkYcgWsJXX6zTmopGkCmf'
+const tezosNode = 'https://florencenet.smartpy.io';
+const contractAddress = 'KT1TsC3fLiGzAjoyBGv2k4Ae1rCrDjDwc7UF'
 
 const router = new express.Router()
 
+// Initialise tous les paramètres d'un contrat, utilisée donc pour créer un nouveau contrat
 router.post('/setAll', (req, res) => {
     
     const body = req.body
@@ -47,7 +48,8 @@ router.post('/setAll', (req, res) => {
     
 })
 
-router.post('/validate', (req, res) => {
+// La ressource signe un contrat
+router.post('/validateByRessource', (req, res) => {
     
     const body = req.body
     const contractParameters = '(Right (Right (Right "' + body.id + '")))'
@@ -66,38 +68,11 @@ router.post('/validate', (req, res) => {
     
 })
 
-router.post('/addUser', (req, res) => {
+// Le client signe un contrat
+router.post('/validateByClient', (req, res) => {
     
     const body = req.body
-    const niveau = null
-
-    if(body.role === 'client') {
-        niveau = 2
-    } else if(body.role === 'ressource') {
-        niveau = 1
-    } else if(body.role === 'entreprise') {
-        niveau = 0
-    }
-    const contractParameters = '(Left (Left (Pair "' + body.address + '" (Some ' + niveau + '))))'
-
-    async function invokeContract() {
-        const keyStore = await conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey(body.privateKey);
-        const signer = await conseiljssoftsigner.SoftSigner.createSigner(conseiljs.TezosMessageUtils.writeKeyWithHint(keyStore.secretKey, 'edsk'));
-        const result = await conseiljs.TezosNodeWriter.sendContractInvocationOperation(tezosNode, signer, keyStore, contractAddress, 0, 100000, 1000, 100000, '', contractParameters, conseiljs.TezosParameterFormat.Michelson);
-        res.json({
-            success : result.results.contents[0].metadata.operation_result.status,
-            resultID : result.operationGroupID
-        })
-    }
-
-    invokeContract()
-    
-})
-
-router.post('/reportActivity', (req, res) => {
-    
-    const body = req.body
-    const contractParameters = '(Left (Right (Right "' + body.id + '")))'
+    const contractParameters = '(Right (Right (Left "' + body.id + '")))'
 
     async function invokeContract() {
         const keyStore = await conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey(body.privateKey);
@@ -116,7 +91,7 @@ router.post('/reportActivity', (req, res) => {
 router.post('/validateActivity', (req, res) => {
     
     const body = req.body
-    const contractParameters = '(Right (Right (Left "' + body.id + '")))'
+    const contractParameters = '(Right (Left "' + body.id + '"))'
 
     async function invokeContract() {
         const keyStore = await conseiljssoftsigner.KeyStoreUtils.restoreIdentityFromSecretKey(body.privateKey);

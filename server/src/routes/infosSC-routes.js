@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const router = new express.Router()
 
 const apiBaseUrl = 'https://api.better-call.dev/v1'
-const addressSC = 'KT1PqPiyWLXZQNyAkYcgWsJXX6zTmopGkCmf'
+const addressSC = 'KT1TsC3fLiGzAjoyBGv2k4Ae1rCrDjDwc7UF'
 
 // fonction qui retourne la valeur d'un élément (TJM, temps, client ...) d'un
 // contrat spécifique
@@ -19,7 +19,7 @@ function findRightValue(complete_storage, id_contrat){
 
 router.post('/', function getRoot(req, res) {
 
-    const path = '/contract/delphinet/' + addressSC + '/storage'
+    const path = '/contract/florencenet/' + addressSC + '/storage'
 
     const body = req.body
 
@@ -34,10 +34,10 @@ router.post('/', function getRoot(req, res) {
         res.json({
             success: true,
             storage: {
-                TJM: findRightValue(storage.children[0].children, body.id),
-                ressource: findRightValue(storage.children[6].children, body.id),
-                time: findRightValue(storage.children[7].children, body.id),
-                client: findRightValue(storage.children[2].children, body.id)
+                TJM: findRightValue(storage[0].children[0].children, body.id),
+                ressource: findRightValue(storage[0].children[5].children, body.id),
+                time: findRightValue(storage[0].children[6].children, body.id),
+                client: findRightValue(storage[0].children[2].children, body.id)
             }
         })
     })
@@ -58,7 +58,7 @@ function findMyContracts (complete_storage, role, pubKey) {
     if(role === 'client') {
         stored = complete_storage.children[2].children
     } else if(role === 'ressource') {
-        stored = complete_storage.children[6].children
+        stored = complete_storage.children[5].children
     } else if(role === 'entreprise') {
         stored = complete_storage.children[4].children
     }
@@ -74,9 +74,9 @@ function findMyContracts (complete_storage, role, pubKey) {
     for(var contratID of id_of_contracts_held) {
         entreprise = undefined
         if(role === 'client') {
-            entreprise = findRightValue(complete_storage.children[4].children, contratID)
+            entreprise = findRightValue(complete_storage.children[5].children, contratID)
         } else if(role === 'ressource') {
-            entreprise = findRightValue(complete_storage.children[4].children, contratID) //entreprise employante
+            entreprise = findRightValue(complete_storage.children[2].children, contratID) //entreprise employante
         } else if(role === 'entreprise') {
             entreprise = findRightValue(complete_storage.children[2].children, contratID) //client
         }
@@ -85,7 +85,7 @@ function findMyContracts (complete_storage, role, pubKey) {
                 id: contratID,
                 TJM: findRightValue(complete_storage.children[0].children, contratID),
                 entreprise: entreprise,
-                time: findRightValue(complete_storage.children[7].children, contratID)
+                time: findRightValue(complete_storage.children[6].children, contratID)
             }
         )
     }
@@ -94,7 +94,7 @@ function findMyContracts (complete_storage, role, pubKey) {
 
 router.post('/mycontracts', function getRoot(req, res) {
 
-    const path = '/contract/delphinet/' + addressSC + '/storage'
+    const path = '/contract/florencenet/' + addressSC + '/storage'
 
     const body = req.body
 
@@ -108,7 +108,7 @@ router.post('/mycontracts', function getRoot(req, res) {
     .then(storage => {
         res.json({
             success: true,
-            storage: findMyContracts(storage, body.role, body.pubKey)
+            storage: findMyContracts(storage[0], body.role, body.pubKey)
         })
     })
     .catch(error => {
@@ -121,16 +121,17 @@ router.post('/mycontracts', function getRoot(req, res) {
 
 function isSigned (complete_storage, id, role) {
     if (role == 'client') {
-        return findRightValue(complete_storage.children[10].children, id) 
+        // cas signature client
+        return findRightValue(complete_storage.children[8].children, id) 
     } else {
-        // cas signature ressource => pas encore sur le sc
-        return false
+        // cas signature ressource
+        return findRightValue(complete_storage.children[9].children, id) 
     }
 }
 
 router.post('/signature', function getRoot(req, res) {
 
-    const path = '/contract/delphinet/' + addressSC + '/storage'
+    const path = '/contract/florencenet/' + addressSC + '/storage'
 
     const body = req.body
 
@@ -144,7 +145,7 @@ router.post('/signature', function getRoot(req, res) {
     .then(storage => {
         res.json({
             success: true,
-            signature: isSigned(storage, body.id, body.role)
+            signature: isSigned(storage[0], body.id, body.role)
         })
     })
     .catch(error => {

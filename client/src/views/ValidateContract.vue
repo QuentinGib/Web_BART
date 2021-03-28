@@ -220,7 +220,14 @@ export default {
     },
     signer () {
       const clePrv = document.getElementById('pose_prv').value
-      fetch('http://localhost:3000/api/v1/accessSC/validate', {
+      const role = VueCookies.get('role')
+      var fetchURL = ''
+      if (role === 'client') {
+        fetchURL = 'http://localhost:3000/api/v1/accessSC/validateByClient'
+      } else {
+        fetchURL = 'http://localhost:3000/api/v1/accessSC/validateByRessource'
+      }
+      fetch(fetchURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
