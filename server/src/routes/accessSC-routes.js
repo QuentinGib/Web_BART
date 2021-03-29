@@ -11,7 +11,7 @@ conseiljs.registerFetch(fetch);
 const express = require('express')
 
 const tezosNode = 'https://florencenet.smartpy.io';
-const contractAddress = 'KT1TsC3fLiGzAjoyBGv2k4Ae1rCrDjDwc7UF'
+const contractAddress = 'KT18mRnj6mgs95s8CzPsafvkqhvoiSfbUPN2'
 
 const router = new express.Router()
 

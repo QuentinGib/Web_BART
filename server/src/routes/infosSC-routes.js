@@ -4,7 +4,7 @@ const fetch = require('node-fetch');
 const router = new express.Router()
 
 const apiBaseUrl = 'https://api.better-call.dev/v1'
-const addressSC = 'KT1TsC3fLiGzAjoyBGv2k4Ae1rCrDjDwc7UF'
+const addressSC = 'KT18mRnj6mgs95s8CzPsafvkqhvoiSfbUPN2'
 
 // fonction qui retourne la valeur d'un élément (TJM, temps, client ...) d'un
 // contrat spécifique
@@ -122,10 +122,10 @@ router.post('/mycontracts', function getRoot(req, res) {
 function isSigned (complete_storage, id, role) {
     if (role == 'client') {
         // cas signature client
-        return findRightValue(complete_storage.children[8].children, id) 
+        return findRightValue(complete_storage.children[9].children, id) 
     } else {
         // cas signature ressource
-        return findRightValue(complete_storage.children[9].children, id) 
+        return findRightValue(complete_storage.children[10].children, id) 
     }
 }
 

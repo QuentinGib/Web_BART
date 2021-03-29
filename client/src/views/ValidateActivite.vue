@@ -75,7 +75,7 @@ export default {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        role: 'ressource',
+        role: 'client',
         pubKey: publicKey
       }),
       redirect: 'follow'
