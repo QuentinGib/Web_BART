@@ -34,3 +34,21 @@ Le smart contract de ce projet est déployé sur le testnet de Tezos `florencene
 ## Architecture du site
 
 ![image](https://github.com/QuentinGib/Web_BART/blob/main/client/public/img/Architecture.PNG)
+
+
+## Fonctionement du Smart-Contract
+
+L'adresse utiliser pour déployer le smart-contrat est enregistrée comme ‘admin’ et est donc la seule à avoir la possibilité d’appeler les deux fonctions suivantes:
+`setAdmin(address)` qui permet de changer le wallet ‘admin’ du contrat.  
+`addUserWhitelist(address,0)` , permet d’ajouter de nouvelles adresses à la whitelist.  
+Ces adresses seront celles qui ont la possibilité de faire de nouveau contrat.  
+Les adresses sur la whitelist peuvent donc appeler la fonction `newContrat()`.  
+Cette fonction prend en paramètres toutes les informations nécessaires à la constitution d’un contrat:  
+- adresse du client
+- adresse de la ressource
+- TJM
+- temps de la mission
+- id du contrat  
+mais aussi différent booléen initialisé à ‘False‘ qui serviront à valider les différentes étapes de la vie du contrat.
+Pour cela il y a les fonctions `validateContratClient()` , `validateContratRessource()` et `validateActivity()` qui prennent a chaque fois en argument l’id du contrat. Ces fonctions ne sont pas restreintes par une whitelist mais seul les adresses enregistrées dans un contrat particulier seront capables d'interagir avec ce dernier en fonction de leur position ( ressource ou client).
+
