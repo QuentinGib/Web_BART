@@ -52,3 +52,11 @@ Cette fonction prend en paramètres toutes les informations nécessaires à la c
 mais aussi différent booléen initialisé à ‘False‘ qui serviront à valider les différentes étapes de la vie du contrat.
 Pour cela il y a les fonctions `validateContratClient()` , `validateContratRessource()` et `validateActivity()` qui prennent a chaque fois en argument l’id du contrat. Ces fonctions ne sont pas restreintes par une whitelist mais seul les adresses enregistrées dans un contrat particulier seront capables d'interagir avec ce dernier en fonction de leur position ( ressource ou client).
 
+## Déploiement du Smart-Contract 
+
+Nous avons donc choisi de développer notre smart-contract avec SmartPy qui est une librairie pour Python.   
+Nous avons utilisé le site https://smartpy.io/ qui nous fournit différents outils pour aider au développement: un éditeur en ligne, un compilateur qui génère du code Michelson, un moteur de simulation, un explorateur de contrats...
+
+Une fois le smart-contract finalisé et que les scénarios de test ne provoquent plus d'erreur, nous pouvons donc compiler le code en Michelson pour pouvoir ensuite le déployer sur le réseau de notre choix. Pour cela il suffit uniquement de se connecter avec un wallet possédant suffisamment de XTZ pour payer les coûts de déploiement.  
+Dans notre cas nous déployons le smart-contract sur le réseau de test Florencenet et nous utilisons donc un adresse faucet que nous récupérons ici: https://faucet.tzalpha.net/
+Pour déployer le contrat sur le réseau mainnet il suffit de se connecter avec un vrai wallet Tezos.
